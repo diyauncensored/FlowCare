@@ -1,0 +1,43 @@
+/* src/components/header.css */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px; /* Increased padding for a more spacious feel */
+  background-color: #d5006d; /* Darker pink background */
+  color: white; /* White text */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.logo {
+  font-size: 28px; /* Larger font size for the logo */
+  font-weight: bold;
+  letter-spacing: 1px; /* Slightly increase letter spacing for a modern look */
+}
+
+.nav-links {
+  list-style: none; /* Remove bullet points */
+  display: flex; /* Display links in a row */
+  gap: 30px; /* Increased space between links */
+}
+
+.nav-links li {
+  display: inline; /* Ensure list items are inline */
+}
+
+.nav-links a {
+  color: white; /* White text for links */
+  text-decoration: none; /* Remove underline from links */
+  font-size: 18px; /* Font size for links */
+  transition: color 0.3s, transform 0.3s; /* Smooth transition for hover effect */
+}
+
+.nav-links a:hover {
+  color: #ffccf2; /* Light pink on hover */
+  transform: translateY(-2px); /* Lift effect on hover */
+}
+
+.nav-links a:active {
+  transform: translateY(0); /* Reset lift effect when clicked */
+}

@@ -1,0 +1,115 @@
+/* Import Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+/* General Styling */
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #ffe6f2, #ffcce0); /* Enhanced gradient */
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+/* Team Members Section */
+.team-members {
+  max-width: 950px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background: #ffffff; /* White for clean contrast */
+  border-radius: 24px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.team-members h2 {
+  font-size: 2.8rem;
+  color: #e91e63; /* Vibrant pink for heading */
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+}
+
+/* Member Cards */
+.members-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.member-card {
+  background: linear-gradient(145deg, #ffcce0, #ff99b8); /* Elegant pink gradient */
+  border: none;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 8px 20px rgba(233, 30, 99, 0.2);
+  transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+  text-align: center;
+}
+
+.member-card:hover {
+  transform: translateY(-12px); /* Lift effect */
+  box-shadow: 0 12px 30px rgba(233, 30, 99, 0.3); /* Deeper shadow */
+  background: linear-gradient(145deg, #ff99b8, #ff80a6); /* Brighter gradient on hover */
+}
+
+.member-card h3 {
+  font-size: 1.8rem;
+  color: #ffffff; /* White text for high contrast */
+  margin-bottom: 0.8rem;
+  font-weight: 700;
+}
+
+.member-card p {
+  font-size: 1.1rem;
+  color: #ffe6ef; /* Subtle pinkish-white for roles */
+  font-weight: 400;
+}
+
+/* Team Description */
+.team-description p {
+  font-size: 1.3rem;
+  line-height: 1.8;
+  color: #4a4a4a;
+  background: linear-gradient(145deg, #ffe6f2, #ffd9e5); /* Softer gradient */
+  padding: 1.8rem;
+  border-radius: 16px;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  font-weight: 400;
+  text-align: center;
+}
+
+.team-description p:hover {
+  transform: scale(1.03); /* Slight zoom-in effect */
+  box-shadow: 0 10px 25px rgba(233, 30, 99, 0.2); /* Pink shadow */
+  transition: all 0.3s ease-in-out;
+}
+
+/* Button-Like Hover for Member Cards */
+.member-card:hover h3 {
+  text-shadow: 0 2px 6px rgba(255, 255, 255, 0.7);
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  .team-members {
+    padding: 1.5rem;
+  }
+
+  .team-members h2 {
+    font-size: 2.2rem;
+  }
+
+  .member-card h3 {
+    font-size: 1.5rem;
+  }
+
+  .member-card p {
+    font-size: 1rem;
+  }
+
+  .team-description p {
+    font-size: 1.1rem;
+  }
+}

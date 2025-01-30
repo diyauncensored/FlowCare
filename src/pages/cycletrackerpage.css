@@ -1,0 +1,109 @@
+/* General Styles */
+.tracker-page {
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+  color: #333;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #f9f9f9, #e6e6e6); /* Subtle gradient background */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.tracker-heading {
+  font-size: 3rem;
+  color: #ff4a6e;
+  margin-bottom: 30px;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Subtle text shadow */
+}
+
+.tracker-subtitle {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 30px;
+  font-style: italic;
+}
+
+/* Tracker Container */
+.tracker-container {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Deeper shadow for a lifted effect */
+  padding: 30px;
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Input Fields */
+.tracker-input {
+  margin-bottom: 25px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.tracker-input label {
+  font-weight: bold;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+  color: #555;
+}
+
+.tracker-input input {
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-top: 5px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tracker-input input:focus {
+  border-color: #ff4a6e;
+  box-shadow: 0 0 8px rgba(255, 74, 110, 0.3); /* Highlight input on focus */
+  outline: none;
+}
+
+/* Result Display */
+.tracker-result {
+  margin-top: 25px;
+  font-size: 1.3rem;
+  color: #444;
+  text-align: left;
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.tracker-result strong {
+  color: #ff4a6e;
+  font-weight: bold;
+}
+
+/* Image Container */
+.tracker-image-container {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cycle-tracking {
+  max-width: 100%;
+  height: auto;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Deeper shadow for the image */
+  width: 400px; /* Enlarged image size */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cycle-tracking:hover {
+  transform: scale(1.05); /* Slight zoom on hover */
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+}

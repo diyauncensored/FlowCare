@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="979px" height="837px" viewBox="0 0 979 837" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Artboard</title>
+    <g id="Artboard" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-3" transform="translate(140.000000, 53.000000)">
+            <g id="Group">
+                <circle id="Oval" fill="#B3E0A9" cx="351" cy="350" r="350"></circle>
+                <path d="M351,700 C519.238634,700 659.241335,583.45981 692.848394,425.237921 C692.921832,424.892177 692.904214,424.362161 692.795541,423.647872 L351,346.703775 L273.089589,691.491499 C272.810764,691.303444 273.41726,691.374778 274.909076,691.7055 C299.406044,697.136261 324.868591,700 351,700 Z" id="Oval" fill="#AAD5FF"></path>
+                <path d="M348.5,349.203775 L351,1.13686838e-13 C157.700338,1.13686838e-13 1,156.700338 1,350 C1,517.443886 118.583485,657.424677 275.684575,691.876493 L348.5,349.203775 Z" id="Oval" fill="#EEB0F2"></path>
+                <path d="M664.378804,195.479117 C665.541715,196.821602 665.792358,196.821602 665.130735,195.479117 C608.057889,79.6739782 488.833372,5.40012479e-13 351,5.40012479e-13 C347.381793,5.40012479e-13 346.548459,5.40012479e-13 348.5,5.40012479e-13 L351,346.703775 L664.378804,195.479117 Z" id="Oval" fill="#EEB9B9"></path>
+                <circle id="Oval" stroke="#FFFFFF" stroke-width="6" fill="#E2FFDC" cx="350.5" cy="349.5" r="279.5"></circle>
+                <path d="M348,69.5158297 L348,628.989052 C271.810022,628.3215 202.896535,597.169226 152.863655,547.136345 C102.284103,496.556794 71,426.681794 71,349.5 C71,272.316743 102.40975,202.317559 153.113655,151.613655 C203.15983,101.567479 272.003937,70.3181383 348,69.5158297 L348,69.5158297 Z" id="Oval" stroke="#FFFFFF" stroke-width="6" fill="#FDE7FF"></path>
+                <g id="Group-2" fill="#FFFFFF">
+                    <rect id="Rectangle" transform="translate(154.807831, 598.105995) rotate(-142.000000) translate(-154.807831, -598.105995) " x="152.307831" y="564.105995" width="5" height="68"></rect>
+                    <rect id="Rectangle" transform="translate(215.500000, 635.500000) rotate(-155.000000) translate(-215.500000, -635.500000) " x="213" y="600" width="5" height="71"></rect>
+                    <rect id="Rectangle" transform="translate(282.500000, 658.500000) rotate(-168.000000) translate(-282.500000, -658.500000) " x="280" y="623" width="5" height="71"></rect>
+                    <rect id="Rectangle" transform="translate(64.406308, 216.922618) rotate(-65.000000) translate(-64.406308, -216.922618) " x="61.9063078" y="182.422618" width="5" height="69"></rect>
+                    <rect id="Rectangle" transform="translate(101.105995, 156.192169) rotate(-52.000000) translate(-101.105995, -156.192169) " x="98.6059946" y="122.192169" width="5" height="68"></rect>
+                    <rect id="Rectangle" transform="translate(210.500000, 66.500000) rotate(-26.000000) translate(-210.500000, -66.500000) " x="208" y="33" width="5" height="67"></rect>
+                    <rect id="Rectangle" transform="translate(150.828030, 104.877355) rotate(-39.000000) translate(-150.828030, -104.877355) " x="148.32803" y="70.8773548" width="5" height="68"></rect>
+                    <rect id="Rectangle" transform="translate(277.612476, 41.987185) rotate(-13.000000) translate(-277.612476, -41.987185) " x="275.112476" y="7.98718503" width="5" height="68"></rect>
+                    <rect id="Rectangle" transform="translate(42.478148, 279.707912) rotate(-78.000000) translate(-42.478148, -279.707912) " x="39.9781476" y="245.207912" width="5" height="69"></rect>
+                    <rect id="Rectangle" transform="translate(35.000000, 349.500000) rotate(-90.000000) translate(-35.000000, -349.500000) " x="32.5" y="314.5" width="5" height="70"></rect>
+                    <rect id="Rectangle" transform="translate(104.665719, 547.556019) rotate(-129.000000) translate(-104.665719, -547.556019) " x="102.165719" y="512.556019" width="5" height="70"></rect>
+                    <rect id="Rectangle" transform="translate(41.064075, 420.062378) rotate(-103.000000) translate(-41.064075, -420.062378) " x="38.5640748" y="384.062378" width="5" height="72"></rect>
+                    <rect id="Rectangle" transform="translate(66.848191, 486.842443) rotate(-116.000000) translate(-66.848191, -486.842443) " x="64.3481911" y="451.842443" width="5" height="70"></rect>
+                    <rect id="Rectangle" transform="translate(348.500000, 667.000000) rotate(-180.000000) translate(-348.500000, -667.000000) " x="346" y="631" width="5" height="72"></rect>
+                    <rect id="Rectangle" x="346" y="0" width="5" height="67"></rect>
+                </g>
+                <rect id="Rectangle" fill="#FFFFFF" transform="translate(548.718241, 596.597780) scale(-1, 1) rotate(-142.000000) translate(-548.718241, -596.597780) " x="546.218241" y="560.59778" width="5" height="72"></rect>
+                <rect id="Rectangle" fill="#FFFFFF" transform="translate(487.466956, 635.469544) scale(-1, 1) rotate(-155.000000) translate(-487.466956, -635.469544) " x="484.966956" y="599.469544" width="5" height="72"></rect>
+                <rect id="Rectangle" fill="#FFFFFF" transform="translate(418.826234, 660.160070) scale(-1, 1) rotate(-168.000000) translate(-418.826234, -660.160070) " x="416.326234" y="623.66007" width="5" height="73"></rect>
+                <rect id="Rectangle" fill="#FFFFFF" transform="translate(633.840613, 210.945407) scale(-1, 1) rotate(-63.000000) translate(-633.840613, -210.945407) " x="631.340613" y="174.945407" width="5" height="72"></rect>
+                <rect id="Rectangle" fill="#FFFFFF" transform="translate(594.380438, 150.664621) scale(-1, 1) rotate(-52.000000) translate(-594.380438, -150.664621) " x="591.880438" y="114.664621" width="5" height="72"></rect>
+                <rect id="Rectangle" fill="#FFFFFF" transform="translate(482.044338, 61.844313) scale(-1, 1) rotate(-25.000000) translate(-482.044338, -61.844313) " x="479.544338" y="26.8443131" width="5" height="70"></rect>
+                <rect id="Rectangle" fill="#FFFFFF" transform="translate(544.341022, 99.026838) scale(-1, 1) rotate(-39.000000) translate(-544.341022, -99.026838) " x="541.841022" y="63.0268377" width="5" height="72"></rect>
+                <rect id="Rectangle" fill="#FFFFFF" transform="translate(414.747837, 39.742220) scale(-1, 1) rotate(-13.000000) translate(-414.747837, -39.742220) " x="412.247837" y="4.74221971" width="5" height="70"></rect>
+                <rect id="Rectangle" fill="#FFFFFF" transform="translate(658.877632, 277.891907) scale(-1, 1) rotate(-78.000000) translate(-658.877632, -277.891907) " x="656.377632" y="242.891907" width="5" height="70"></rect>
+                <rect id="Rectangle" fill="#FFFFFF" transform="translate(666.910411, 349.203775) scale(-1, 1) rotate(-90.000000) translate(-666.910411, -349.203775) " x="664.410411" y="314.203775" width="5" height="70"></rect>
+                <rect id="Rectangle" fill="#FFFFFF" transform="translate(599.576130, 546.147755) scale(-1, 1) rotate(-129.000000) translate(-599.576130, -546.147755) " x="597.07613" y="511.147755" width="5" height="70"></rect>
+                <rect id="Rectangle" fill="#FFFFFF" transform="translate(659.877632, 415.515642) scale(-1, 1) rotate(-102.000000) translate(-659.877632, -415.515642) " x="657.377632" y="380.515642" width="5" height="70"></rect>
+                <rect id="Rectangle" fill="#FFFFFF" transform="translate(636.657396, 484.299703) scale(-1, 1) rotate(-116.000000) translate(-636.657396, -484.299703) " x="634.157396" y="448.299703" width="5" height="72"></rect>
+                <path d="M409.001498,625.925618 C397.278232,628.123346 388.262415,629.609368 381.954049,630.383683 C375.645683,631.157998 365.327667,631.69677 351,632 L351,700.000337 C366.445347,699.891064 379.38293,699.219439 389.812748,697.985462 C400.242566,696.751486 411.360164,694.974391 423.165541,692.65418 L409.001498,625.925618 Z" id="Path" fill="#58AAF9"></path>
+                <text id="Luteal-Phase" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#EEB0F2">
+                    <tspan x="155.568" y="337">Luteal </tspan>
+                    <tspan x="154.686" y="388">Phase</tspan>
+                    <tspan x="265.314" y="388" font-size="23"> </tspan>
+                </text>
+                <text id="Follicular-Phase" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#A0D195">
+                    <tspan x="401.64" y="337">Follicular </tspan>
+                    <tspan x="427.686" y="388">Phase</tspan>
+                    <tspan x="538.314" y="388" font-size="23"> </tspan>
+                </text>
+                <text id="Menstruation" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#EEB9B9">
+                    <tspan x="563.116" y="38">Menstruation</tspan>
+                </text>
+                <text id="Varies-from-3-7-days" font-family="Poppins-Medium, Poppins" font-size="24" font-weight="400" fill="#EEB9B9">
+                    <tspan x="589.124" y="72">Varies from 3-7 </tspan>
+                    <tspan x="623.468" y="105">days long</tspan>
+                </text>
+                <text id="Ovulation" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#58AAF9">
+                    <tspan x="306.268" y="745">Ovulation</tspan>
+                </text>
+                <text id="Fertility-Window" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#AAD5FF">
+                    <tspan x="605.088" y="632">Fertility </tspan>
+                    <tspan x="597.546" y="683">Window</tspan>
+                </text>
+            </g>
+            <text id="1" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#FFFFFF">
+                <tspan x="372.7" y="49">1</tspan>
+            </text>
+            <text id="22" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#FFFFFF">
+                <tspan x="15.228" y="328">22</tspan>
+            </text>
+            <text id="20" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#FFFFFF">
+                <tspan x="29.076" y="467">20</tspan>
+            </text>
+            <text id="19" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#FFFFFF">
+                <tspan x="66.27" y="532">19</tspan>
+            </text>
+            <text id="17" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#FFFFFF">
+                <tspan x="167.62" y="633">17</tspan>
+            </text>
+            <text id="18" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#FFFFFF">
+                <tspan x="108.216" y="590">18</tspan>
+            </text>
+            <text id="21" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#FFFFFF">
+                <tspan x="19.314" y="400">21</tspan>
+            </text>
+            <text id="26" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#FFFFFF">
+                <tspan x="159.058" y="97">26</tspan>
+            </text>
+            <text id="25" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#FFFFFF">
+                <tspan x="101.112" y="142">25</tspan>
+            </text>
+            <text id="24" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#FFFFFF">
+                <tspan x="58.968" y="200">24</tspan>
+            </text>
+            <text id="23" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#FFFFFF">
+                <tspan x="30.922" y="258">23</tspan>
+            </text>
+            <text id="27" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#FFFFFF">
+                <tspan x="223.534" y="67">27</tspan>
+            </text>
+            <text id="14" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#FFFFFF">
+                <tspan x="365.054" y="677">14</tspan>
+            </text>
+            <text id="15" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#FFFFFF">
+                <tspan x="296.198" y="677">15</tspan>
+            </text>
+            <text id="16" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#FFFFFF">
+                <tspan x="231.144" y="664">16</tspan>
+            </text>
+            <text id="28" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#FFFFFF">
+                <tspan x="291.13" y="49">28</tspan>
+            </text>
+            <text id="10" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#FFFFFF">
+                <tspan x="601.162" y="530">10</tspan>
+            </text>
+            <text id="11" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#FFFFFF">
+                <tspan x="562.4" y="586">11</tspan>
+            </text>
+            <text id="8" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#FFFFFF">
+                <tspan x="653.516" y="396">8</tspan>
+            </text>
+            <text id="9" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#FFFFFF">
+                <tspan x="636.57" y="465">9</tspan>
+            </text>
+            <text id="5" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#FFFFFF">
+                <tspan x="604.498" y="194">5</tspan>
+            </text>
+            <text id="6" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#FFFFFF">
+                <tspan x="635.444" y="258">6</tspan>
+            </text>
+            <text id="7" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#FFFFFF">
+                <tspan x="654.92" y="327">7</tspan>
+            </text>
+            <text id="2" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#FFFFFF">
+                <tspan x="434.614" y="62">2</tspan>
+            </text>
+            <text id="3" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#FFFFFF">
+                <tspan x="500.308" y="92">3</tspan>
+            </text>
+            <text id="4" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#FFFFFF">
+                <tspan x="557.354" y="138">4</tspan>
+            </text>
+            <text id="12" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#FFFFFF">
+                <tspan x="500.314" y="633">12</tspan>
+            </text>
+            <text id="13" font-family="Poppins-Medium, Poppins" font-size="36" font-weight="400" fill="#FFFFFF">
+                <tspan x="437.008" y="664">13</tspan>
+            </text>
+        </g>
+    </g>
+</svg>

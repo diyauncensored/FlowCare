@@ -1,0 +1,96 @@
+/* src/App.css */
+
+body {
+  font-family: 'Arial', sans-serif; /* Set a friendly font for the entire app */
+  background-color: #ff80ab; /* Solid pink background for the entire app */
+  margin: 0; /* Remove default margin */
+  padding: 0; /* Remove default padding */
+  color: #333; /* Default text color */
+}
+
+h1, h2, h3 {
+  color: #d5006d; /* Darker pink for headings */
+}
+
+h1 {
+  font-size: 36px; /* Font size for main headings */
+  text-align: center; /* Center align main heading */
+  margin: 20px 0; /* Space above and below */
+}
+
+h2 {
+  font-size: 28px; /* Font size for section headings */
+  margin-bottom: 20px; /* Space below the heading */
+}
+
+h3 {
+  font-size: 20px; /* Font size for subheadings */
+  margin: 10px 0; /* Space above and below */
+}
+
+.container {
+  max-width: 1200px; /* Max width for the main container */
+  margin: 0 auto; /* Center the container */
+  padding: 20px; /* Padding around the container */
+  background-color: rgba(255, 255, 255, 0.9); /* White background with slight transparency for the container */
+  border-radius: 12px; /* Rounded corners for the container */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.team-members {
+  text-align: center;
+  padding: 40px; /* Increased padding for a spacious feel */
+  background-color: #ffeef8; /* Light pink background for the container */
+  border-radius: 12px; /* Rounded corners for the container */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+  margin: 20px; /* Margin around the container */
+}
+
+button {
+  background-color: #d5006d; /* Button background color */
+  color: white; /* Button text color */
+  border: none; /* Remove border */
+  border-radius: 5px; /* Rounded corners for buttons */
+  padding: 10px 20px; /* Padding for buttons */
+  cursor: pointer; /* Change cursor to pointer */
+  transition: background-color 0.3s, transform 0.3s; /* Smooth transition for hover effect */
+}
+
+button:hover {
+  background-color: #c51162; /* Darker pink on hover */
+  transform: translateY(-2px); /* Lift effect on hover */
+}
+
+button:active {
+  transform: translateY(0); /* Reset lift effect when clicked */
+}
+
+/* Additional styles for links */
+a {
+  color: #d5006d; /* Darker pink for links */
+  text-decoration: none; /* Remove underline from links */
+  transition: color 0.3s; /* Smooth transition for hover effect */
+}
+
+a:hover {
+  color: #ffccf2; /* Light pink on hover */
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px; /* Reduce padding on smaller screens */
+  }
+
+  h1 {
+    font-size: 28px; /* Smaller font size for main heading */
+  }
+
+  h2 {
+    font-size: 24px; /* Smaller font size for section headings */
+  }
+
+  button {
+    padding: 8px 16px; /* Adjust button padding for smaller screens */
+  }
+}

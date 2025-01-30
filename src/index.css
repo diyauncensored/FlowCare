@@ -1,0 +1,217 @@
+/* Reset default browser styling */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Global Body Styles */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9f9f9; /* Lighter background */
+  color: #333; /* Dark text for readability */
+  line-height: 1.6;
+  min-height: 100vh;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Global Link Styles */
+a {
+  color: #4a90e2; /* Custom primary blue */
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #357ABD; /* Slightly darker blue on hover */
+  text-decoration: underline;
+}
+
+/* Typography Styles */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  color: #222; /* Darker color for headings */
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 8px;
+}
+
+h3 {
+  font-size: 1.75rem;
+  margin-bottom: 6px;
+}
+
+/* Main content area styles */
+main {
+  flex-grow: 1;
+  padding: 40px 20px;
+  margin: 0 auto;
+  max-width: 1200px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Styles */
+header {
+  background-color: #fff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+header h1 {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #4a90e2; /* Custom primary color for branding */
+}
+
+header nav {
+  margin-top: 20px;
+}
+
+header nav a {
+  font-size: 1.2rem;
+  margin: 0 15px;
+  padding: 10px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+header nav a:hover {
+  background-color: #f0f0f0; /* Light gray on hover */
+}
+
+/* Footer Styles */
+footer {
+  padding: 20px;
+  background-color: #4a90e2;
+  color: white;
+  text-align: center;
+  font-size: 1rem;
+}
+
+footer a {
+  color: white;
+  transition: color 0.3s ease;
+}
+
+footer a:hover {
+  color: #f0f0f0;
+}
+
+/* Button Styles */
+button {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #357ABD;
+  transform: scale(1.05); /* Slightly increase button size on hover */
+}
+
+button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Form Inputs and Textarea */
+input,
+textarea {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 1rem;
+  margin-bottom: 15px;
+  width: 100%;
+  transition: border-color 0.3s ease;
+}
+
+input:focus,
+textarea:focus {
+  border-color: #4a90e2;
+  outline: none;
+}
+
+input[type="submit"] {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+input[type="submit"]:hover {
+  background-color: #357ABD;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  main {
+    padding: 30px 15px;
+  }
+
+  header nav a {
+    font-size: 1rem;
+    margin: 0 10px;
+  }
+
+  footer {
+    font-size: 0.9rem;
+  }
+}
+
+/* Dark Mode Styles (optional enhancement) */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #121212;
+    color: #f4f4f4;
+  }
+
+  main {
+    background-color: #1e1e1e;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  }
+
+  header,
+  footer {
+    background-color: #333;
+    color: #fff;
+  }
+
+  footer a {
+    color: #f4f4f4;
+  }
+
+  button {
+    background-color: #357ABD;
+    color: white;
+  }
+
+  button:hover {
+    background-color: #4a90e2;
+  }
+}
