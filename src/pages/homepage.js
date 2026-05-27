@@ -135,7 +135,7 @@ function HomePage({ cycleLength, periodLength, lastPeriod, loggedSymptoms, simul
       {/* Hero Header Section */}
       <section className="home-hero">
         <h1 className="hero-logo-glow">FlowCare</h1>
-        <p className="hero-subtitle">Menstrual wellness companion designed with interactive futurism.</p>
+        <p className="hero-subtitle">Your personalized companion for menstrual wellness and cycle tracking.</p>
       </section>
 
       {/* Affirmation Marquee */}

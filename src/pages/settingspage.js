@@ -128,7 +128,7 @@ function SettingsPage({
             <div className="toggle-item-row">
               <div className="toggle-text-col">
                 <h3>Vibrant Dark Mode</h3>
-                <p>Switch between the soft-rose aesthetic and futuristic cyberpunk theme.</p>
+                <p>Switch between the soft-rose aesthetic and rich dark theme.</p>
               </div>
               <label className="toggle-switch">
                 <input
