@@ -33,25 +33,21 @@ function Header({ theme, setTheme }) {
         <ul className="nav-links">
           <li>
             <Link to="/" className={isActive("/") ? "active-link" : ""}>
-              <span className="nav-icon">🏠</span>
               <span className="nav-text">Home</span>
             </Link>
           </li>
           <li>
             <Link to="/talk" className={isActive("/talk") ? "active-link" : ""}>
-              <span className="nav-icon">💬</span>
               <span className="nav-text">FlowBot</span>
             </Link>
           </li>
           <li>
             <Link to="/tracker" className={isActive("/tracker") ? "active-link" : ""}>
-              <span className="nav-icon">📅</span>
               <span className="nav-text">Tracker</span>
             </Link>
           </li>
           <li>
             <Link to="/settings" className={isActive("/settings") ? "active-link" : ""}>
-              <span className="nav-icon">⚙️</span>
               <span className="nav-text">Settings</span>
             </Link>
           </li>
