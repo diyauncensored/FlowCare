@@ -51,18 +51,18 @@ const TalkHere = ({ loggedSymptoms, lastPeriod, cycleLength, periodLength }) => 
     
     // Add cramp relief advice if user logged cramps
     if (todayLogs.painList?.includes("Cramps")) {
-      chips.push("💆 How can I relieve cramps today?");
+      chips.push("How can I relieve cramps today?");
     }
     
     // Add hydration advice if logged water is low
     if (todayLogs.water && todayLogs.water < 1000) {
-      chips.push("💧 Why is hydration critical right now?");
+      chips.push("Why is hydration critical right now?");
     }
 
     // Default choices
-    chips.push(`🥗 Recipe ideas for my ${currentPhase}`);
-    chips.push("😴 Tips to sleep better during my cycle");
-    chips.push("🧘 Gentle exercises for menstrual fatigue");
+    chips.push(`Recipe ideas for my ${currentPhase}`);
+    chips.push("Tips to sleep better during my cycle");
+    chips.push("Gentle exercises for menstrual fatigue");
 
     // Deduplicate and slice to top 3
     return [...new Set(chips)].slice(0, 3);
@@ -269,7 +269,6 @@ Please ask me about nutrition tips, workout modifications, or symptom remedies c
             />
             <button onClick={() => sendMessage(inputValue)} className="btn-premium chat-send-btn">
               <span>Send</span>
-              <span>⚡</span>
             </button>
           </div>
 

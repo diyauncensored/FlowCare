@@ -8,18 +8,18 @@ import healthTipsIcon from "./images/health-tips.jpeg";
 
 // Curated affirmations
 const AFFIRMATIONS = [
-  "Your body is powerful and wise ✨",
-  "Rest is not laziness — it's recovery 🌙",
-  "You deserve gentleness today 🌸",
-  "Every phase of your cycle has its own strength 💪",
-  "Nourish yourself — you are worth it 🍵",
-  "Your feelings are valid, always 💜",
-  "Slow progress is still progress 🦋",
-  "You are more than your symptoms 🌟",
-  "Breathe deeply — this moment is yours 🧘",
-  "Your cycle is your superpower 🔮",
-  "Be patient with yourself today 🌷",
-  "You radiate strength in every phase 💫",
+  "Your body is powerful and wise",
+  "Rest is not laziness — it's recovery",
+  "You deserve gentleness today",
+  "Every phase of your cycle has its own strength",
+  "Nourish yourself — you are worth it",
+  "Your feelings are valid, always",
+  "Slow progress is still progress",
+  "You are more than your symptoms",
+  "Breathe deeply — this moment is yours",
+  "Your cycle is your superpower",
+  "Be patient with yourself today",
+  "You radiate strength in every phase",
 ];
 
 function TiltCard({ children, className }) {
@@ -206,7 +206,7 @@ function HomePage({ cycleLength, periodLength, lastPeriod, loggedSymptoms, simul
         <div className="tips-card-wrapper">
           <div className="tip-card glass-card">
             <div className="tip-header-row">
-              <span className="tip-icon">💡</span>
+              <span className="tip-icon"></span>
               <div>
                 <h4 className="tip-phase-indicator">Wellness Tip • {details.phase}</h4>
                 <h3 className="tip-title">{details.tipTitle}</h3>
@@ -221,7 +221,7 @@ function HomePage({ cycleLength, periodLength, lastPeriod, loggedSymptoms, simul
               <div className="logs-summary-grid">
                 {todayLogs.flow && (
                   <div className="log-summary-item">
-                    <span className="summary-emoji">🩸</span>
+                    <span className="summary-emoji"></span>
                     <div>
                       <p className="item-title">Flow</p>
                       <p className="item-val">{todayLogs.flow}</p>
@@ -230,7 +230,7 @@ function HomePage({ cycleLength, periodLength, lastPeriod, loggedSymptoms, simul
                 )}
                 {todayLogs.mood && (
                   <div className="log-summary-item">
-                    <span className="summary-emoji">😊</span>
+                    <span className="summary-emoji"></span>
                     <div>
                       <p className="item-title">Mood</p>
                       <p className="item-val">{todayLogs.mood}</p>
@@ -239,7 +239,7 @@ function HomePage({ cycleLength, periodLength, lastPeriod, loggedSymptoms, simul
                 )}
                 {todayLogs.water && (
                   <div className="log-summary-item">
-                    <span className="summary-emoji">💧</span>
+                    <span className="summary-emoji"></span>
                     <div>
                       <p className="item-title">Hydration</p>
                       <p className="item-val">{todayLogs.water} mL</p>
@@ -248,7 +248,7 @@ function HomePage({ cycleLength, periodLength, lastPeriod, loggedSymptoms, simul
                 )}
                 {todayLogs.sleep && (
                   <div className="log-summary-item">
-                    <span className="summary-emoji">💤</span>
+                    <span className="summary-emoji"></span>
                     <div>
                       <p className="item-title">Sleep</p>
                       <p className="item-val">{todayLogs.sleep} hrs</p>
@@ -261,7 +261,6 @@ function HomePage({ cycleLength, periodLength, lastPeriod, loggedSymptoms, simul
                 <p>You haven't logged any health events today.</p>
                 <Link to="/tracker" className="btn-premium">
                   <span>Log Symptoms</span>
-                  <span>➕</span>
                 </Link>
               </div>
             )}
@@ -274,22 +273,22 @@ function HomePage({ cycleLength, periodLength, lastPeriod, loggedSymptoms, simul
         <h2 className="section-title">Your Cycle Insights</h2>
         <div className="insights-grid stagger-enter">
           <TiltCard className="insight-mini-card glass-card">
-            <span className="insight-icon">📊</span>
+            <span className="insight-icon"></span>
             <span className="insight-value">{insights.totalDaysLogged}</span>
             <span className="insight-label">Days Logged</span>
           </TiltCard>
           <TiltCard className="insight-mini-card glass-card">
-            <span className="insight-icon">😊</span>
+            <span className="insight-icon"></span>
             <span className="insight-value">{insights.topMood}</span>
             <span className="insight-label">Top Mood</span>
           </TiltCard>
           <TiltCard className="insight-mini-card glass-card">
-            <span className="insight-icon">💧</span>
+            <span className="insight-icon"></span>
             <span className="insight-value">{insights.avgWater}<small>mL</small></span>
             <span className="insight-label">Avg. Water</span>
           </TiltCard>
           <TiltCard className="insight-mini-card glass-card">
-            <span className="insight-icon">🔥</span>
+            <span className="insight-icon"></span>
             <span className="insight-value">{insights.streak}</span>
             <span className="insight-label">Day Streak</span>
           </TiltCard>
@@ -312,7 +311,7 @@ function HomePage({ cycleLength, periodLength, lastPeriod, loggedSymptoms, simul
           </TiltCard>
           <TiltCard className="feature-glow-card glass-card">
             <img src={healthTipsIcon} alt="Health Tips" className="feature-icon-media" />
-            <h3>Holographic AI</h3>
+            <h3>Personalised AI</h3>
             <p>Talk with our intelligent chat model about symptoms, pain relief, and customized wellness.</p>
           </TiltCard>
         </div>
@@ -324,7 +323,6 @@ function HomePage({ cycleLength, periodLength, lastPeriod, loggedSymptoms, simul
         <p>Unlock custom cycle predictions and track over 20 symptoms today.</p>
         <Link to="/tracker" className="btn-premium">
           <span>Go to Tracker</span>
-          <span>➡️</span>
         </Link>
       </section>
     </div>

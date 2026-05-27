@@ -41,7 +41,7 @@ function SettingsPage({
         
         {/* Profile Card */}
         <div className="settings-card glass-card">
-          <div className="card-header-icon">👤</div>
+          <div className="card-header-icon"></div>
           <h2>User Profile</h2>
           <div className="form-column">
             <label className="form-label-item">
@@ -77,7 +77,7 @@ function SettingsPage({
 
         {/* Cycle Metrics Configurations */}
         <div className="settings-card glass-card">
-          <div className="card-header-icon">🧬</div>
+          <div className="card-header-icon"></div>
           <h2>Cycle Coordinates</h2>
           <div className="form-column">
             <label className="form-label-item">
@@ -120,7 +120,7 @@ function SettingsPage({
 
         {/* System & Aesthetic Toggles */}
         <div className="settings-card glass-card full-width-card">
-          <div className="card-header-icon">🎨</div>
+          <div className="card-header-icon"></div>
           <h2>System Customization</h2>
           
           <div className="toggles-grid-row">
@@ -160,7 +160,6 @@ function SettingsPage({
           <div className="settings-actions-footer">
             <button className="btn-premium save-settings-btn" onClick={handleSave}>
               <span>Apply Changes</span>
-              <span>⚡</span>
             </button>
           </div>
 
