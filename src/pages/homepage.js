@@ -126,7 +126,7 @@ function HomePage({ cycleLength, periodLength, lastPeriod, loggedSymptoms, simul
 
   const details = getCycleDetails(simulatedDay);
 
-  const radius = 120;
+  const radius = 125;
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference - (simulatedDay / cycleLength) * circumference;
 
@@ -154,18 +154,18 @@ function HomePage({ cycleLength, periodLength, lastPeriod, loggedSymptoms, simul
           <div className="dial-card glass-card">
             
             <div className="svg-dial-container">
-              <svg className="svg-dial-ring" width="280" height="280">
+              <svg className="svg-dial-ring" width="300" height="300">
                 <circle
                   className="dial-ring-bg"
-                  cx="140"
-                  cy="140"
+                  cx="150"
+                  cy="150"
                   r={radius}
                   strokeWidth="12"
                 />
                 <circle
                   className="dial-ring-fill"
-                  cx="140"
-                  cy="140"
+                  cx="150"
+                  cy="150"
                   r={radius}
                   strokeWidth="12"
                   stroke={details.strokeColor}

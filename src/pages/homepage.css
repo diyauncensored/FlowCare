@@ -57,8 +57,8 @@
 /* Circular SVG Dial */
 .svg-dial-container {
   position: relative;
-  width: 280px;
-  height: 280px;
+  width: 300px;
+  height: 300px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -95,19 +95,20 @@ body:not(.theme-dark) .dial-ring-bg {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 20px;
+  padding: 24px;
+  box-sizing: border-box;
 }
 
 /* Phase Badges & Colors */
 .phase-badge {
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  padding: 4px 12px;
+  letter-spacing: 0.08em;
+  padding: 3px 12px;
   border-radius: 20px;
   color: white;
-  margin-bottom: 12px;
+  margin-bottom: 6px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
@@ -133,23 +134,39 @@ body:not(.theme-dark) .dial-ring-bg {
 
 .dial-day-num {
   font-family: var(--font-title);
-  font-size: 3.5rem;
+  font-size: 3.1rem;
   font-weight: 700;
   line-height: 1;
   color: var(--text-primary);
   letter-spacing: -0.04em;
+  margin-bottom: 2px;
 }
 
 .dial-day-total {
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   color: var(--text-secondary);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  opacity: 0.8;
 }
 
 .dial-chance {
-  font-size: 0.85rem;
+  font-size: 0.72rem;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
   color: var(--text-secondary);
+  max-width: 190px;
+  line-height: 1.4;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 4px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.3s ease;
+}
+
+body:not(.theme-dark) .dial-chance {
+  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.04);
 }
 
 /* Slider Controls */
