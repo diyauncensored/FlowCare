@@ -164,22 +164,66 @@ body.theme-dark .theme-toggle-btn {
 /* Responsiveness */
 @media (max-width: 900px) {
   .glass-header {
-    padding: 12px 24px;
-    flex-direction: column;
-    gap: 16px;
+    padding: 10px 20px;
+    gap: 12px;
+  }
+  
+  .logo-text {
+    font-size: 1.4rem;
+  }
+  
+  .logo-droplet {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .nav-links {
+    gap: 8px;
+  }
+  
+  .nav-links a {
+    padding: 8px 14px;
+    font-size: 0.85rem;
   }
 }
 
 @media (max-width: 600px) {
-  .nav-text {
-    display: none; /* Hide link labels on very small displays for native look */
+  .glass-header {
+    padding: 8px 12px;
+    justify-content: space-between;
+    gap: 4px;
+  }
+  
+  .logo-text {
+    font-size: 1.2rem;
+  }
+  
+  .logo-droplet {
+    width: 20px;
+    height: 20px;
+    gap: 6px;
+  }
+  
+  .header-logo a {
+    gap: 6px;
+  }
+  
+  .nav-links {
+    gap: 2px;
   }
   
   .nav-links a {
-    padding: 10px 14px;
+    padding: 6px 8px;
+    font-size: 0.78rem;
   }
   
-  .glass-header {
-    padding: 12px 16px;
+  .theme-toggle-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 0.95rem;
+  }
+  
+  .nav-text {
+    display: inline-block;
   }
 }
