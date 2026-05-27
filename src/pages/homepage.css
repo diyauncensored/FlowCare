@@ -1,127 +1,522 @@
-/* General Styles */
-.home-page {
-  font-family: "Arial", sans-serif;
-  color: #333;
-  line-height: 1.6;
-  margin: 0;
-  padding: 0;
-  background-color: #fff0f6;
-}
+/* src/pages/homepage.css */
 
-/* Hero Section */
-.hero-section {
-  background: linear-gradient(135deg, #ff9ebb, #ff6f91);
-  color: #fff;
-  text-align: center;
-  padding: 50px 20px; /* Reduced padding */
-}
-
-.hero-section h1 {
-  font-size: 2.5rem; /* Reduced font size */
-  margin-bottom: 10px;
-}
-
-.hero-section p {
-  font-size: 1.1rem; /* Slightly smaller */
-  margin-bottom: 20px;
-}
-
-.get-started-btn {
-  background-color: #ff6f91;
-  color: #fff;
-  padding: 10px 25px; /* Slightly smaller button */
-  font-size: 0.9rem;
-  border: none;
-  border-radius: 25px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.get-started-btn:hover {
-  background-color: #ff4771;
-}
-
-/* Features Section */
-.features-section {
-  padding: 50px 20px;
-  text-align: center;
-  background-color: #ffe4ec;
-}
-
-.features-section h2 {
-  font-size: 2.5rem;
-  margin-bottom: 30px;
-  color: #ff6f91;
-}
-
-.features {
+.home-container {
   display: flex;
-  gap: 20px;
+  flex-direction: column;
+  gap: 48px;
+  width: 100%;
+}
+
+/* Hero Title Logo */
+.home-hero {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.hero-logo-glow {
+  font-size: 3.5rem;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  background: var(--color-accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 2px 10px var(--color-accent-glow));
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Dial and Layout Grid Section */
+.dial-section {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 32px;
+  align-items: stretch;
+}
+
+.dial-glow-wrapper {
+  border-radius: 24px;
+  transition: all 0.5s ease;
+}
+
+.dial-card.glass-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
+  padding: 40px 24px;
+  height: 100%;
 }
 
-.feature-card {
-  background-color: #fff;
-  border-radius: 15px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+/* Circular SVG Dial */
+.svg-dial-container {
+  position: relative;
+  width: 280px;
+  height: 280px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.svg-dial-ring {
+  transform: rotate(-90deg);
+}
+
+.dial-ring-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.15);
+}
+
+body:not(.theme-dark) .dial-ring-bg {
+  stroke: rgba(0, 0, 0, 0.05);
+}
+
+.dial-ring-fill {
+  fill: none;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), stroke 0.6s ease;
+}
+
+.dial-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
   padding: 20px;
-  max-width: 300px;
-  text-align: center;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.feature-card:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+/* Phase Badges & Colors */
+.phase-badge {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 4px 12px;
+  border-radius: 20px;
+  color: white;
+  margin-bottom: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
-.feature-icon {
-  width: 80px;
-  height: auto;
-  margin-bottom: 15px;
+.phase-menstruation {
+  background: linear-gradient(135deg, #FF7B99 0%, #FF3D64 100%);
+  box-shadow: 0 4px 12px rgba(255, 61, 100, 0.25);
 }
 
-.feature-card h3 {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
-  color: #ff6f91;
+.phase-follicular {
+  background: linear-gradient(135deg, #FFAE7A 0%, #FF8E53 100%);
+  box-shadow: 0 4px 12px rgba(255, 142, 83, 0.25);
 }
 
-/* Call to Action Section */
-.cta-section {
-  background: linear-gradient(135deg, #ff6f91, #ff4771);
-  color: #fff;
-  text-align: center;
-  padding: 40px 20px; /* Adjusted for balance */
+.phase-ovulatory {
+  background: linear-gradient(135deg, #B587FF 0%, #7E26FF 100%);
+  box-shadow: 0 4px 12px rgba(126, 38, 255, 0.25);
 }
 
-.cta-section h2 {
-  font-size: 2.2rem;
-  margin-bottom: 20px;
+.phase-luteal {
+  background: linear-gradient(135deg, #FF8FD1 0%, #FF5EB4 100%);
+  box-shadow: 0 4px 12px rgba(255, 94, 180, 0.25);
 }
 
-.cta-btn {
-  background-color: #fff;
-  color: #ff4771;
-  padding: 10px 25px;
-  font-size: 1rem;
-  border: none;
-  border-radius: 25px;
+.dial-day-num {
+  font-family: var(--font-title);
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text-primary);
+  letter-spacing: -0.04em;
+}
+
+.dial-day-total {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.dial-chance {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+/* Slider Controls */
+.slider-control-panel {
+  width: 100%;
+  max-width: 320px;
+  margin-top: 10px;
+}
+
+.slider-label-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+.current-sim-label {
+  color: var(--color-accent);
+}
+
+.theme-gradient-slider {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid var(--border-card);
+  outline: none;
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.cta-btn:hover {
-  background-color: #ffe4ec;
-  color: #ff4771;
+body:not(.theme-dark) .theme-gradient-slider {
+  background: rgba(0, 0, 0, 0.05);
 }
 
-/* Footer */
-.footer {
-  background-color: #ff9ebb;
-  color: #fff;
+.theme-gradient-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--color-accent-gradient);
+  cursor: pointer;
+  box-shadow: 0 2px 8px var(--color-accent-glow);
+  transition: transform 0.1s ease;
+}
+
+.theme-gradient-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+}
+
+.slider-limits {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+/* Tips and Wellness Deck */
+.tips-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.tip-card.glass-card {
+  padding: 24px;
+}
+
+.tip-header-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.tip-icon {
+  font-size: 2rem;
+  background: rgba(255, 107, 139, 0.1);
+  padding: 8px;
+  border-radius: 16px;
+}
+
+body.theme-dark .tip-icon {
+  background: rgba(255, 61, 100, 0.15);
+}
+
+.tip-phase-indicator {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+}
+
+.tip-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.tip-body {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+/* Logged Symptoms Summary card */
+.today-logs-card.glass-card {
+  padding: 24px;
+}
+
+.today-logs-card h3 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.logs-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.log-summary-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.3);
+  padding: 10px 14px;
+  border-radius: 16px;
+  border: 1px solid var(--border-card);
+}
+
+body.theme-dark .log-summary-item {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.summary-emoji {
+  font-size: 1.4rem;
+}
+
+.item-title {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.item-val {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.empty-logs-state {
   text-align: center;
-  padding: 20px;
-  font-size: 1rem;
+  padding: 12px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.empty-logs-state p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+/* Features Grid */
+.features-grid-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: -0.02em;
+}
+
+.features-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+.feature-glow-card.glass-card {
+  text-align: center;
+  padding: 36px 24px;
+}
+
+.feature-icon-media {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  border: 2px solid var(--border-card);
+  transition: transform 0.5s ease;
+}
+
+.feature-glow-card.glass-card:hover .feature-icon-media {
+  transform: scale(1.08) rotate(5deg);
+}
+
+.feature-glow-card h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.feature-glow-card p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* CTA Glass Banner */
+.cta-glass-banner.glass-card {
+  text-align: center;
+  padding: 50px 30px;
+  background: linear-gradient(135deg, rgba(255, 107, 139, 0.12) 0%, rgba(126, 38, 255, 0.08) 100%), var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+body.theme-dark .cta-glass-banner.glass-card {
+  background: linear-gradient(135deg, rgba(255, 61, 100, 0.05) 0%, rgba(114, 22, 255, 0.05) 100%), var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cta-glass-banner h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.cta-glass-banner p {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin-bottom: 12px;
+}
+
+/* Responsiveness */
+@media (max-width: 900px) {
+  .dial-section {
+    grid-template-columns: 1fr;
+  }
+  
+  .insights-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 500px) {
+  .insights-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ===== Affirmation Marquee ===== */
+.affirmation-marquee {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  padding: 14px 0;
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  border-radius: 50px;
+  border: 1px solid var(--border-card);
+  box-shadow: var(--shadow-card);
+  /* Gradient edge masks */
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+}
+
+.marquee-track {
+  display: flex;
+  gap: 48px;
+  width: max-content;
+  animation: marqueeScroll 55s linear infinite;
+}
+
+.affirmation-item {
+  white-space: nowrap;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  letter-spacing: 0.01em;
+}
+
+@keyframes marqueeScroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ===== Cycle Insights Analytics ===== */
+.insights-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.insights-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.insight-mini-card.glass-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  padding: 28px 16px;
+  cursor: default;
+}
+
+/* Override the default glass-card hover lift since tilt handles it */
+.insight-mini-card.glass-card:hover {
+  transform: none;
+}
+
+.insight-icon {
+  font-size: 2rem;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.insight-value {
+  font-family: var(--font-title);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.insight-value small {
+  font-size: 0.7em;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-left: 2px;
+}
+
+.insight-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-secondary);
 }

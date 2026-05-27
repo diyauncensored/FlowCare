@@ -1,96 +1,153 @@
 /* src/App.css */
 
-body {
-  font-family: 'Arial', sans-serif; /* Set a friendly font for the entire app */
-  background-color: #ff80ab; /* Solid pink background for the entire app */
-  margin: 0; /* Remove default margin */
-  padding: 0; /* Remove default padding */
-  color: #333; /* Default text color */
+/* Core Layout Wrappers */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  width: 100%;
 }
 
-h1, h2, h3 {
-  color: #d5006d; /* Darker pink for headings */
+.app-main {
+  flex-grow: 1;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  animation: fadeInApp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
-h1 {
-  font-size: 36px; /* Font size for main headings */
-  text-align: center; /* Center align main heading */
-  margin: 20px 0; /* Space above and below */
+/* Animations for Page Transitions */
+@keyframes fadeInApp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-h2 {
-  font-size: 28px; /* Font size for section headings */
-  margin-bottom: 20px; /* Space below the heading */
+/* Route Transition Wrapper */
+.route-transition-wrapper {
+  animation: routeFadeIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 
-h3 {
-  font-size: 20px; /* Font size for subheadings */
-  margin: 10px 0; /* Space above and below */
+@keyframes routeFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
-.container {
-  max-width: 1200px; /* Max width for the main container */
-  margin: 0 auto; /* Center the container */
-  padding: 20px; /* Padding around the container */
-  background-color: rgba(255, 255, 255, 0.9); /* White background with slight transparency for the container */
-  border-radius: 12px; /* Rounded corners for the container */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-}
-
-.team-members {
+/* Common Interactive Utility Elements */
+.glass-header-title {
+  font-family: var(--font-title);
+  font-size: 2.5rem;
+  font-weight: 700;
   text-align: center;
-  padding: 40px; /* Increased padding for a spacious feel */
-  background-color: #ffeef8; /* Light pink background for the container */
-  border-radius: 12px; /* Rounded corners for the container */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
-  margin: 20px; /* Margin around the container */
+  background: var(--color-accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 8px;
+  letter-spacing: -0.03em;
 }
 
-button {
-  background-color: #d5006d; /* Button background color */
-  color: white; /* Button text color */
-  border: none; /* Remove border */
-  border-radius: 5px; /* Rounded corners for buttons */
-  padding: 10px 20px; /* Padding for buttons */
-  cursor: pointer; /* Change cursor to pointer */
-  transition: background-color 0.3s, transform 0.3s; /* Smooth transition for hover effect */
+.glass-subtitle {
+  font-size: 1.1rem;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-bottom: 40px;
 }
 
-button:hover {
-  background-color: #c51162; /* Darker pink on hover */
-  transform: translateY(-2px); /* Lift effect on hover */
+/* Glass-style Toggle Switches (Switch Theme etc) */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 32px;
 }
 
-button:active {
-  transform: translateY(0); /* Reset lift effect when clicked */
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
-/* Additional styles for links */
-a {
-  color: #d5006d; /* Darker pink for links */
-  text-decoration: none; /* Remove underline from links */
-  transition: color 0.3s; /* Smooth transition for hover effect */
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border-card);
+  transition: .4s;
+  border-radius: 34px;
 }
 
-a:hover {
-  color: #ffccf2; /* Light pink on hover */
+body:not(.theme-dark) .toggle-slider {
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
-/* Responsive styles */
+.toggle-slider:before {
+  position: absolute;
+  content: "";
+  height: 24px;
+  width: 24px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+input:checked + .toggle-slider {
+  background: var(--color-accent-gradient);
+}
+
+input:checked + .toggle-slider:before {
+  transform: translateX(28px);
+}
+
+/* Keyframes for custom micro-actions */
+@keyframes pulseHeart {
+  0% { transform: scale(1); }
+  14% { transform: scale(1.15); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.15); }
+  70% { transform: scale(1); }
+}
+
+@keyframes pulseGlowRing {
+  0% {
+    box-shadow: 0 0 0 0 var(--color-accent-glow);
+  }
+  70% {
+    box-shadow: 0 0 0 15px rgba(255, 61, 100, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 61, 100, 0);
+  }
+}
+
+/* Responsive adjustments */
 @media (max-width: 768px) {
-  .container {
-    padding: 10px; /* Reduce padding on smaller screens */
+  .app-main {
+    padding: 24px 16px;
   }
-
-  h1 {
-    font-size: 28px; /* Smaller font size for main heading */
-  }
-
-  h2 {
-    font-size: 24px; /* Smaller font size for section headings */
-  }
-
-  button {
-    padding: 8px 16px; /* Adjust button padding for smaller screens */
+  
+  .glass-header-title {
+    font-size: 2rem;
   }
 }

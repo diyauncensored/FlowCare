@@ -1,109 +1,480 @@
-/* General Styles */
-.tracker-page {
-  font-family: 'Arial', sans-serif;
-  text-align: center;
-  color: #333;
-  padding: 40px 20px;
-  background: linear-gradient(135deg, #f9f9f9, #e6e6e6); /* Subtle gradient background */
-  min-height: 100vh;
+/* src/pages/cycletrackerpage.css */
+
+.tracker-page-container {
   display: flex;
   flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+.tracker-grid-layout {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 32px;
+  align-items: start;
+}
+
+/* Calendar Section Panel */
+.calendar-panel.glass-card {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.cal-header-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.cal-month-title {
+  font-family: var(--font-title);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.cal-nav-btn {
+  background: rgba(255, 107, 139, 0.1);
+  border: 1px solid var(--border-card);
+  color: var(--color-accent);
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
   align-items: center;
   justify-content: center;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.tracker-heading {
-  font-size: 3rem;
-  color: #ff4a6e;
-  margin-bottom: 30px;
-  font-weight: bold;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Subtle text shadow */
+.cal-nav-btn:hover {
+  background: var(--color-accent-gradient);
+  color: white;
+  transform: scale(1.05);
 }
 
-.tracker-subtitle {
-  font-size: 1.2rem;
-  color: #666;
-  margin-bottom: 30px;
-  font-style: italic;
+/* Day labels */
+.cal-weekday-labels {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-card);
+  padding-bottom: 12px;
 }
 
-/* Tracker Container */
-.tracker-container {
+/* Days grid */
+.cal-days-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+  min-height: 280px;
+}
+
+.cal-cell {
+  position: relative;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--text-primary);
+  cursor: default;
+}
+
+.cal-cell.empty {
+  opacity: 0;
+  cursor: default;
+}
+
+.cal-cell.active-day {
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+body:not(.theme-dark) .cal-cell.active-day {
+  background: rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(0, 0, 0, 0.02);
+}
+
+.cal-cell.active-day:hover {
+  transform: scale(1.08);
+  box-shadow: 0 4px 15px rgba(255, 107, 139, 0.1);
+  border-color: var(--color-accent);
+}
+
+/* Highlights */
+.cal-day-period {
+  background: var(--color-accent-gradient) !important;
+  color: white !important;
+  box-shadow: 0 4px 15px var(--color-accent-glow);
+}
+
+.cal-day-fertile {
+  background: var(--color-ovulation-glow) !important;
+  box-shadow: 0 0 10px var(--color-ovulation-glow);
+  border: 2px dashed var(--color-ovulation) !important;
+}
+
+.cal-day-ovulation {
+  background: var(--color-ovulation-gradient) !important;
+  color: white !important;
+  box-shadow: 0 4px 15px var(--color-ovulation-glow);
+  border: none !important;
+}
+
+.cal-day-selected {
+  outline: 2px solid var(--text-primary);
+  outline-offset: 2px;
+}
+
+.cal-day-today {
+  border: 2px solid var(--color-accent) !important;
+}
+
+.cal-day-today::after {
+  content: '';
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  width: 6px;
+  height: 6px;
+  background: var(--color-accent);
+  border-radius: 50%;
+}
+
+.cal-ovulation-heart {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  font-size: 0.6rem;
+}
+
+.cal-log-dot {
+  position: absolute;
+  bottom: 4px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-success, #2EC4B6);
+  box-shadow: 0 0 6px var(--color-success);
+}
+
+.cal-day-period .cal-log-dot,
+.cal-day-ovulation .cal-log-dot {
   background: white;
-  border-radius: 15px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Deeper shadow for a lifted effect */
-  padding: 30px;
-  max-width: 600px;
-  width: 100%;
-  margin: 0 auto;
 }
 
-/* Input Fields */
-.tracker-input {
-  margin-bottom: 25px;
+/* Legend panel */
+.cal-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  border: 1px solid var(--border-card);
+}
+
+body.theme-dark .cal-legend {
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.legend-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+}
+
+.dot-period {
+  background: var(--color-accent-gradient);
+}
+
+.dot-fertile {
+  border: 2px dashed var(--color-ovulation);
+  background: var(--color-ovulation-glow);
+}
+
+.dot-ovulation {
+  background: var(--color-ovulation-gradient);
+}
+
+.dot-log {
+  background: #2EC4B6;
+}
+
+/* Fast settings Row */
+.cal-fast-settings {
+  border-top: 1px solid var(--border-card);
+  padding-top: 20px;
+}
+
+.cal-fast-settings h3 {
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  color: var(--text-primary);
+}
+
+.fast-settings-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+}
+
+.fast-settings-row label {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  gap: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-secondary);
 }
 
-.tracker-input label {
-  font-weight: bold;
-  margin-bottom: 10px;
-  font-size: 1.1rem;
-  color: #555;
-}
-
-.tracker-input input {
-  width: 100%;
-  padding: 12px;
-  font-size: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  margin-top: 5px;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.tracker-input input:focus {
-  border-color: #ff4a6e;
-  box-shadow: 0 0 8px rgba(255, 74, 110, 0.3); /* Highlight input on focus */
+.fast-settings-row input {
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid var(--border-card);
+  color: var(--text-primary);
+  border-radius: 12px;
+  padding: 8px 12px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
   outline: none;
 }
 
-/* Result Display */
-.tracker-result {
-  margin-top: 25px;
-  font-size: 1.3rem;
-  color: #444;
-  text-align: left;
-  padding: 15px;
-  background: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+body.theme-dark .fast-settings-row input {
+  background: rgba(0, 0, 0, 0.2);
 }
 
-.tracker-result strong {
-  color: #ff4a6e;
-  font-weight: bold;
-}
-
-/* Image Container */
-.tracker-image-container {
-  margin-top: 40px;
+/* Symptom Logger Drawer Drawer */
+.logger-panel.glass-card {
+  padding: 30px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  gap: 24px;
+  height: 100%;
+}
+
+.logger-header {
+  border-bottom: 1px solid var(--border-card);
+  padding-bottom: 16px;
+}
+
+.logger-header h2 {
+  font-family: var(--font-title);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.logger-target-date {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-accent);
+  margin-top: 4px;
+}
+
+.logger-body-scroller {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-height: 480px;
+  overflow-y: auto;
+  padding-right: 8px;
+}
+
+.logger-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.logger-group h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.group-header-label {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
 }
 
-.cycle-tracking {
-  max-width: 100%;
-  height: auto;
-  border-radius: 15px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Deeper shadow for the image */
-  width: 400px; /* Enlarged image size */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+.value-metric {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-accent);
 }
 
-.cycle-tracking:hover {
-  transform: scale(1.05); /* Slight zoom on hover */
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+/* Choice Chips Row */
+.chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.choice-chip {
+  background: rgba(255, 255, 255, 0.4);
+  border: 1px solid var(--border-card);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 8px 16px;
+  border-radius: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+body.theme-dark .choice-chip {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.choice-chip:hover {
+  transform: translateY(-1px);
+  border-color: var(--color-accent);
+}
+
+.choice-chip.selected {
+  background: var(--color-accent-gradient);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 4px 12px var(--color-accent-glow);
+}
+
+/* Mood icons spacing */
+.chips-row.moods .choice-chip {
+  padding: 10px 18px;
+  font-size: 0.9rem;
+}
+
+/* Stepper Hydration display */
+.water-stepper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.stepper-btn {
+  background: var(--color-accent-gradient);
+  color: white;
+  border: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px var(--color-accent-glow);
+}
+
+.water-level-display {
+  flex-grow: 1;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid var(--border-card);
+  border-radius: 14px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body.theme-dark .water-level-display {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.water-level-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: linear-gradient(135deg, #7AD7FF 0%, #30A4FF 100%);
+  transition: width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  z-index: 1;
+}
+
+.water-inner-txt {
+  position: relative;
+  z-index: 2;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.4);
+}
+
+body.theme-dark .water-inner-txt {
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* Sleep slider adjustment */
+.sleep-slider {
+  margin-top: 6px;
+}
+
+/* Footer layout inside Logger drawer */
+.logger-actions-footer {
+  border-top: 1px solid var(--border-card);
+  padding-top: 20px;
+  display: flex;
+  gap: 12px;
+}
+
+.save-logs-btn {
+  flex-grow: 1;
+  padding: 14px;
+}
+
+.clear-logs-btn {
+  background: transparent;
+  border: 1px solid var(--border-card);
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.clear-logs-btn:hover {
+  background: rgba(255, 61, 100, 0.08);
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+/* Response on drawer activation */
+@media (max-width: 900px) {
+  .tracker-grid-layout {
+    grid-template-columns: 1fr;
+  }
 }

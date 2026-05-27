@@ -1,0 +1,45 @@
+/* Sparkle Trail Overlay */
+.sparkle-trail-container {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* Individual Sparkle Particle */
+.sparkle-particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: sparkleFloat ease-out forwards;
+  box-shadow: 0 0 6px currentColor;
+  opacity: 1;
+  will-change: transform, opacity;
+}
+
+/* Star-shaped variant */
+.sparkle-particle.sparkle-star {
+  border-radius: 0;
+  clip-path: polygon(
+    50% 0%, 61% 35%, 98% 35%, 68% 57%,
+    79% 91%, 50% 70%, 21% 91%, 32% 57%,
+    2% 35%, 39% 35%
+  );
+  box-shadow: 0 0 8px currentColor;
+}
+
+@keyframes sparkleFloat {
+  0% {
+    transform: translate(-50%, -50%) scale(0) translateY(0) translateX(0);
+    opacity: 1;
+  }
+  20% {
+    transform: translate(-50%, -50%) scale(1.2) translateY(-5px) translateX(calc(var(--drift-x) * 0.2));
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(0.3) translateY(-60px) translateX(var(--drift-x));
+    opacity: 0;
+  }
+}
