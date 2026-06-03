@@ -1,4 +1,6 @@
-/* Floating Orbs Background Layer */
+/* Floating Orbs — Cinematic Phase 3 */
+/* Softer, more editorial ambient light effects */
+
 .floating-orbs-container {
   position: fixed;
   inset: 0;
@@ -10,122 +12,123 @@
 .orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.35;
+  filter: blur(100px);
+  opacity: 0.15;
   will-change: transform;
 }
 
-/* Light theme orb colors */
+/* Light theme — Soft pastel washes */
 .orb-1 {
-  width: 350px;
-  height: 350px;
-  background: radial-gradient(circle, #FFB7C5 0%, #FF7B99 50%, transparent 70%);
-  top: -5%;
-  right: -5%;
-  animation: orbDrift1 28s ease-in-out infinite;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(255, 183, 197, 0.6) 0%, rgba(255, 123, 153, 0.3) 50%, transparent 70%);
+  top: -8%;
+  right: -8%;
+  animation: orbDrift1 32s ease-in-out infinite;
 }
 
 .orb-2 {
-  width: 280px;
-  height: 280px;
-  background: radial-gradient(circle, #E8BFFF 0%, #B587FF 50%, transparent 70%);
-  bottom: 10%;
-  left: -8%;
-  animation: orbDrift2 34s ease-in-out infinite;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(232, 191, 255, 0.5) 0%, rgba(181, 135, 255, 0.25) 50%, transparent 70%);
+  bottom: 8%;
+  left: -6%;
+  animation: orbDrift2 38s ease-in-out infinite;
 }
 
 .orb-3 {
-  width: 220px;
-  height: 220px;
-  background: radial-gradient(circle, #FFD4A8 0%, #FFAA6B 50%, transparent 70%);
-  top: 40%;
-  right: 15%;
-  animation: orbDrift3 24s ease-in-out infinite;
+  width: 250px;
+  height: 250px;
+  background: radial-gradient(circle, rgba(255, 212, 168, 0.4) 0%, rgba(255, 170, 107, 0.2) 50%, transparent 70%);
+  top: 45%;
+  right: 12%;
+  animation: orbDrift3 28s ease-in-out infinite;
 }
 
 .orb-4 {
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, #FFD1DC 0%, #FF85A2 50%, transparent 70%);
-  bottom: -10%;
-  right: 30%;
-  animation: orbDrift4 38s ease-in-out infinite;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, rgba(255, 209, 220, 0.4) 0%, rgba(255, 133, 162, 0.2) 50%, transparent 70%);
+  bottom: -12%;
+  right: 28%;
+  animation: orbDrift4 42s ease-in-out infinite;
 }
 
 .orb-5 {
-  width: 180px;
-  height: 180px;
-  background: radial-gradient(circle, #C5E8FF 0%, #7AD7FF 50%, transparent 70%);
-  top: 20%;
-  left: 20%;
-  animation: orbDrift5 30s ease-in-out infinite;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(197, 232, 255, 0.35) 0%, rgba(122, 215, 255, 0.15) 50%, transparent 70%);
+  top: 18%;
+  left: 18%;
+  animation: orbDrift5 34s ease-in-out infinite;
 }
 
-/* Dark theme: brighter neon orbs */
+/* Dark theme — Deeper, more cinematic glow */
+body.theme-dark .orb { opacity: 0.08; }
+
 body.theme-dark .orb-1 {
-  background: radial-gradient(circle, #FF3D64 0%, #FF1E4B 40%, transparent 70%);
-  opacity: 0.2;
+  background: radial-gradient(circle, rgba(255, 61, 100, 0.5) 0%, rgba(255, 30, 75, 0.2) 40%, transparent 70%);
+  opacity: 0.1;
 }
 
 body.theme-dark .orb-2 {
-  background: radial-gradient(circle, #8E3FFF 0%, #7216FF 40%, transparent 70%);
-  opacity: 0.18;
+  background: radial-gradient(circle, rgba(142, 63, 255, 0.4) 0%, rgba(114, 22, 255, 0.15) 40%, transparent 70%);
+  opacity: 0.08;
 }
 
 body.theme-dark .orb-3 {
-  background: radial-gradient(circle, #FF5EB4 0%, #FF2D9B 40%, transparent 70%);
-  opacity: 0.15;
+  background: radial-gradient(circle, rgba(255, 94, 180, 0.3) 0%, rgba(255, 45, 155, 0.1) 40%, transparent 70%);
+  opacity: 0.07;
 }
 
 body.theme-dark .orb-4 {
-  background: radial-gradient(circle, #FF6B8B 0%, #FF3D64 40%, transparent 70%);
-  opacity: 0.12;
+  background: radial-gradient(circle, rgba(255, 107, 139, 0.3) 0%, rgba(255, 61, 100, 0.1) 40%, transparent 70%);
+  opacity: 0.06;
 }
 
 body.theme-dark .orb-5 {
-  background: radial-gradient(circle, #AB70FF 0%, #7E26FF 40%, transparent 70%);
-  opacity: 0.15;
+  background: radial-gradient(circle, rgba(171, 112, 255, 0.3) 0%, rgba(126, 38, 255, 0.1) 40%, transparent 70%);
+  opacity: 0.07;
 }
 
-/* Drift Animations — each on a unique elliptical path */
+/* Drift Animations — Gentle, cinematic movement */
 @keyframes orbDrift1 {
   0%   { transform: translate(0, 0) scale(1); }
-  25%  { transform: translate(-60px, 80px) scale(1.1); }
-  50%  { transform: translate(-30px, 140px) scale(0.95); }
-  75%  { transform: translate(40px, 60px) scale(1.05); }
+  25%  { transform: translate(-50px, 70px) scale(1.08); }
+  50%  { transform: translate(-25px, 120px) scale(0.96); }
+  75%  { transform: translate(35px, 50px) scale(1.04); }
   100% { transform: translate(0, 0) scale(1); }
 }
 
 @keyframes orbDrift2 {
   0%   { transform: translate(0, 0) scale(1); }
-  33%  { transform: translate(80px, -50px) scale(1.15); }
-  66%  { transform: translate(40px, 60px) scale(0.9); }
+  33%  { transform: translate(70px, -40px) scale(1.12); }
+  66%  { transform: translate(30px, 50px) scale(0.92); }
   100% { transform: translate(0, 0) scale(1); }
 }
 
 @keyframes orbDrift3 {
   0%   { transform: translate(0, 0) scale(1); }
-  20%  { transform: translate(-50px, -40px) scale(1.1); }
-  50%  { transform: translate(-80px, 30px) scale(0.95); }
-  80%  { transform: translate(20px, 50px) scale(1.08); }
+  20%  { transform: translate(-40px, -35px) scale(1.08); }
+  50%  { transform: translate(-65px, 25px) scale(0.96); }
+  80%  { transform: translate(15px, 40px) scale(1.06); }
   100% { transform: translate(0, 0) scale(1); }
 }
 
 @keyframes orbDrift4 {
   0%   { transform: translate(0, 0) scale(1); }
-  30%  { transform: translate(60px, -80px) scale(1.05); }
-  60%  { transform: translate(-40px, -40px) scale(1.12); }
+  30%  { transform: translate(50px, -65px) scale(1.04); }
+  60%  { transform: translate(-30px, -30px) scale(1.1); }
   100% { transform: translate(0, 0) scale(1); }
 }
 
 @keyframes orbDrift5 {
   0%   { transform: translate(0, 0) scale(1); }
-  40%  { transform: translate(70px, 40px) scale(1.1); }
-  70%  { transform: translate(-30px, 80px) scale(0.92); }
+  40%  { transform: translate(55px, 30px) scale(1.08); }
+  70%  { transform: translate(-20px, 65px) scale(0.94); }
   100% { transform: translate(0, 0) scale(1); }
 }
 
-/* Reduce motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
   .orb {
     animation: none !important;

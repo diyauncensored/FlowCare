@@ -98,6 +98,15 @@ function CycleTrackerPage({
     }
   };
 
+  // Check if a day is in the future
+  const isFutureDate = (day) => {
+    const targetDate = new Date(year, month, day);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    targetDate.setHours(0, 0, 0, 0);
+    return targetDate > today;
+  };
+
   // Handle day click
   const handleDayClick = (day) => {
     const targetDate = new Date(year, month, day);
@@ -154,6 +163,7 @@ function CycleTrackerPage({
     const isSelected = cellDateStr === selectedDateStr;
     const isToday = cellDateStr === formatDateStr(new Date());
     const hasLogs = loggedSymptoms[cellDateStr] ? true : false;
+    const isFuture = isFutureDate(day);
 
     let dayClass = "";
     if (isPeriod) dayClass += " cal-day-period";
@@ -161,6 +171,7 @@ function CycleTrackerPage({
     if (isOvulation) dayClass += " cal-day-ovulation";
     if (isSelected) dayClass += " cal-day-selected";
     if (isToday) dayClass += " cal-day-today";
+    if (isFuture) dayClass += " cal-day-future";
 
     calendarCells.push(
       <div 
@@ -177,20 +188,25 @@ function CycleTrackerPage({
 
   return (
     <div className="tracker-page-container">
-      <section className="tracker-intro">
-        <h1 className="glass-header-title">Cycle Calendar</h1>
-        <p className="glass-subtitle">Log physical events, symptoms, and hydration to train FlowBot predictions.</p>
+
+      {/* Page Header */}
+      <section className="tracker-page-header animate-fade-rise">
+        <h1 className="tracker-page-title">Cycle Tracker</h1>
+        <p className="tracker-page-subtitle">
+          Log symptoms, hydration, and sleep to refine your predictions.
+        </p>
       </section>
 
       <div className="tracker-grid-layout">
         
-        {/* Left Side: Dynamic Calendar Grid */}
-        <div className="calendar-panel glass-card">
+        {/* Left Side: Calendar */}
+        <div className="calendar-panel animate-fade-rise-delay">
           
+          {/* Month Navigation */}
           <div className="cal-header-controls">
-            <button className="cal-nav-btn" onClick={handlePrevMonth}>◀</button>
+            <button className="cal-nav-btn" onClick={handlePrevMonth} aria-label="Previous month">←</button>
             <h2 className="cal-month-title">{monthNames[month]} {year}</h2>
-            <button className="cal-nav-btn" onClick={handleNextMonth}>▶</button>
+            <button className="cal-nav-btn" onClick={handleNextMonth} aria-label="Next month">→</button>
           </div>
 
           {/* Weekday Labels */}
@@ -203,11 +219,11 @@ function CycleTrackerPage({
             {calendarCells}
           </div>
 
-          {/* Legend Panel */}
+          {/* Legend */}
           <div className="cal-legend">
             <div className="legend-item">
               <span className="legend-dot dot-period"></span>
-              <span>Menstruation</span>
+              <span>Period</span>
             </div>
             <div className="legend-item">
               <span className="legend-dot dot-fertile"></span>
@@ -215,20 +231,20 @@ function CycleTrackerPage({
             </div>
             <div className="legend-item">
               <span className="legend-dot dot-ovulation"></span>
-              <span>Ovulation (Peak)</span>
+              <span>Ovulation</span>
             </div>
             <div className="legend-item">
               <span className="legend-dot dot-log"></span>
-              <span>Logged Habits</span>
+              <span>Logged</span>
             </div>
           </div>
 
-          {/* Configurations Fast Settings Panel */}
+          {/* Cycle Calibrator */}
           <div className="cal-fast-settings">
-            <h3>Cycle Calibrator</h3>
+            <h3>Cycle Settings</h3>
             <div className="fast-settings-row">
               <label>
-                <span>Cycle Length:</span>
+                <span>Cycle Length</span>
                 <input 
                   type="number" 
                   min="21" 
@@ -238,7 +254,7 @@ function CycleTrackerPage({
                 />
               </label>
               <label>
-                <span>Period Duration:</span>
+                <span>Period Duration</span>
                 <input 
                   type="number" 
                   min="3" 
@@ -248,7 +264,7 @@ function CycleTrackerPage({
                 />
               </label>
               <label>
-                <span>Start Date:</span>
+                <span>Last Period Start</span>
                 <input 
                   type="date" 
                   value={lastPeriod} 
@@ -260,34 +276,41 @@ function CycleTrackerPage({
 
         </div>
 
-        {/* Right Side: Symptom Logger Drawer */}
-        <div className={`logger-panel glass-card ${showLogger ? "active-drawer" : ""}`}>
+        {/* Right Side: Symptom Logger */}
+        <div className={`logger-panel ${showLogger ? "active-drawer" : ""} animate-fade-rise-delay-2`}>
           <div className="logger-header">
             <h2>Wellness Logger</h2>
-            <p className="logger-target-date">📅 {selectedDateStr ? new Date(selectedDateStr).toDateString() : ""}</p>
+            <p className="logger-target-date">
+              {selectedDateStr ? new Date(selectedDateStr + "T00:00:00").toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }) : ""}
+            </p>
           </div>
 
           <div className="logger-body-scroller">
             
-            {/* Flow Intensity Choice Chips */}
+            {/* Flow Intensity */}
             <div className="logger-group">
-              <h3>Vaginal Flow</h3>
+              <h3>Flow</h3>
               <div className="chips-row">
-                {["None", "Light", "Medium", "Heavy"].map(option => (
+                {[
+                  { label: "None", emoji: "⚪" },
+                  { label: "Light", emoji: "🩸" },
+                  { label: "Medium", emoji: "🩸" },
+                  { label: "Heavy", emoji: "🩸" }
+                ].map(option => (
                   <button 
-                    key={option} 
-                    className={`choice-chip ${flow === option ? "selected" : ""}`}
-                    onClick={() => setFlow(option)}
+                    key={option.label} 
+                    className={`choice-chip ${flow === option.label ? "selected" : ""}`}
+                    onClick={() => setFlow(option.label)}
                   >
-                    {option === "None" ? "⚪" : "🩸"} {option}
+                    {option.emoji} {option.label}
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* Mood Emoji Chips */}
+            {/* Mood */}
             <div className="logger-group">
-              <h3>Mood State</h3>
+              <h3>Mood</h3>
               <div className="chips-row moods">
                 {[
                   { name: "Happy", emoji: "😊" },
@@ -309,9 +332,9 @@ function CycleTrackerPage({
               </div>
             </div>
 
-            {/* Pain / Physical Checkbox Chips */}
+            {/* Physical Symptoms */}
             <div className="logger-group">
-              <h3>Physical Symptoms</h3>
+              <h3>Symptoms</h3>
               <div className="chips-row checkable">
                 {["Cramps", "Headache", "Bloating", "Acne", "Backache", "Fatigue"].map(symptom => (
                   <button
@@ -319,34 +342,34 @@ function CycleTrackerPage({
                     className={`choice-chip check-chip ${painList.includes(symptom) ? "selected" : ""}`}
                     onClick={() => togglePain(symptom)}
                   >
-                    <span>{painList.includes(symptom) ? "✅" : "➕"}</span>
+                    <span>{painList.includes(symptom) ? "✓" : "+"}</span>
                     <span>{symptom}</span>
                   </button>
                 ))}
               </div>
             </div>
 
-            {/* Water Tracker Tracker */}
+            {/* Water Intake */}
             <div className="logger-group">
               <div className="group-header-label">
                 <h3>Water Intake</h3>
                 <span className="value-metric">{water} mL</span>
               </div>
               <div className="water-stepper">
-                <button className="stepper-btn" onClick={() => setWater(Math.max(0, water - 250))}>-250</button>
+                <button className="stepper-btn" onClick={() => setWater(Math.max(0, water - 250))}>−</button>
                 <div className="water-level-display">
                   <div className="water-level-fill" style={{ width: `${Math.min(100, (water / 2000) * 100)}%` }}></div>
                   <span className="water-inner-txt">Goal: 2000 mL</span>
                 </div>
-                <button className="stepper-btn" onClick={() => setWater(water + 250)}>+250</button>
+                <button className="stepper-btn" onClick={() => setWater(water + 250)}>+</button>
               </div>
             </div>
 
-            {/* Sleep Slider */}
+            {/* Sleep Duration */}
             <div className="logger-group">
               <div className="group-header-label">
-                <h3>Sleep Duration</h3>
-                <span className="value-metric">{sleep} Hours</span>
+                <h3>Sleep</h3>
+                <span className="value-metric">{sleep} hrs</span>
               </div>
               <input
                 type="range"
@@ -355,19 +378,19 @@ function CycleTrackerPage({
                 step="0.5"
                 value={sleep}
                 onChange={(e) => setSleep(parseFloat(e.target.value))}
-                className="theme-gradient-slider sleep-slider"
+                className="sleep-slider"
               />
             </div>
 
           </div>
 
+          {/* Actions Footer */}
           <div className="logger-actions-footer">
             <button className="btn-premium save-logs-btn" onClick={handleSaveLogs}>
-              <span>Save Daily Log</span>
-              <span>💾</span>
+              Save Log
             </button>
             <button className="clear-logs-btn" onClick={handleClearLogs}>
-              Clear Logs
+              Clear
             </button>
           </div>
         </div>

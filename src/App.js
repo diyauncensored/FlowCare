@@ -1,83 +1,142 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter as Router, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import HomePage from "./pages/homepage";
 import CycleTrackerPage from "./pages/cycletrackerpage";
 import SettingsPage from "./pages/settingspage";
 import TalkHere from "./components/TalkHere";
+import LoginPage from "./pages/loginpage";
 import Header from "./components/header";
-import SparkleTrail from "./components/SparkleTrail";
+import ProtectedRoute from "./components/ProtectedRoute";
+import { AuthProvider, useAuth } from "./auth/AuthContext";
+
 import FloatingOrbs from "./components/FloatingOrbs";
 import "./App.css";
 
-// Animated route wrapper — triggers fade-slide on route change
-function AnimatedRoutes({
+function AppRoutes({
   cycleLength, setCycleLength,
   periodLength, setPeriodLength,
   lastPeriod, setLastPeriod,
   loggedSymptoms, setLoggedSymptoms,
   simulatedDay, setSimulatedDay,
-  theme, setTheme
+  theme, setTheme,
 }) {
   const location = useLocation();
+  const { isAuthenticated } = useAuth();
 
   return (
     <div className="route-transition-wrapper" key={location.pathname}>
       <Routes location={location}>
-        <Route 
-          path="/" 
-          element={
-            <HomePage 
-              cycleLength={cycleLength}
-              periodLength={periodLength}
-              lastPeriod={lastPeriod}
-              loggedSymptoms={loggedSymptoms}
-              simulatedDay={simulatedDay}
-              setSimulatedDay={setSimulatedDay}
-            />
-          } 
+        <Route
+          path="/login"
+          element={isAuthenticated ? <Navigate to="/" replace /> : <LoginPage />}
         />
-        <Route 
-          path="/talk" 
+        <Route
+          path="/"
           element={
-            <TalkHere 
-              loggedSymptoms={loggedSymptoms}
-              lastPeriod={lastPeriod}
-              cycleLength={cycleLength}
-              periodLength={periodLength}
-            />
-          } 
+            <ProtectedRoute>
+              <HomePage
+                cycleLength={cycleLength}
+                periodLength={periodLength}
+                lastPeriod={lastPeriod}
+                loggedSymptoms={loggedSymptoms}
+                simulatedDay={simulatedDay}
+                setSimulatedDay={setSimulatedDay}
+              />
+            </ProtectedRoute>
+          }
         />
-        <Route 
-          path="/tracker" 
+        <Route
+          path="/talk"
           element={
-            <CycleTrackerPage 
-              cycleLength={cycleLength}
-              setCycleLength={setCycleLength}
-              periodLength={periodLength}
-              setPeriodLength={setPeriodLength}
-              lastPeriod={lastPeriod}
-              setLastPeriod={setLastPeriod}
-              loggedSymptoms={loggedSymptoms}
-              setLoggedSymptoms={setLoggedSymptoms}
-            />
-          } 
+            <ProtectedRoute>
+              <TalkHere
+                loggedSymptoms={loggedSymptoms}
+                lastPeriod={lastPeriod}
+                cycleLength={cycleLength}
+                periodLength={periodLength}
+              />
+            </ProtectedRoute>
+          }
         />
-        <Route 
-          path="/settings" 
+        <Route
+          path="/tracker"
           element={
-            <SettingsPage 
-              cycleLength={cycleLength}
-              setCycleLength={setCycleLength}
-              periodLength={periodLength}
-              setPeriodLength={setPeriodLength}
-              lastPeriod={lastPeriod}
-              setLastPeriod={setLastPeriod}
-              theme={theme}
-              setTheme={setTheme}
-            />
-          } 
+            <ProtectedRoute>
+              <CycleTrackerPage
+                cycleLength={cycleLength}
+                setCycleLength={setCycleLength}
+                periodLength={periodLength}
+                setPeriodLength={setPeriodLength}
+                lastPeriod={lastPeriod}
+                setLastPeriod={setLastPeriod}
+                loggedSymptoms={loggedSymptoms}
+                setLoggedSymptoms={setLoggedSymptoms}
+              />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <SettingsPage
+                cycleLength={cycleLength}
+                setCycleLength={setCycleLength}
+                periodLength={periodLength}
+                setPeriodLength={setPeriodLength}
+                lastPeriod={lastPeriod}
+                setLastPeriod={setLastPeriod}
+                theme={theme}
+                setTheme={setTheme}
+              />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="*"
+          element={<Navigate to={isAuthenticated ? "/" : "/login"} replace />}
         />
       </Routes>
+    </div>
+  );
+}
+
+function AppShell({
+  cycleLength, setCycleLength,
+  periodLength, setPeriodLength,
+  lastPeriod, setLastPeriod,
+  loggedSymptoms, setLoggedSymptoms,
+  simulatedDay, setSimulatedDay,
+  theme, setTheme,
+}) {
+  const location = useLocation();
+  const { isAuthenticated } = useAuth();
+  const isLoginPage = location.pathname === "/login";
+
+  return (
+    <div className="app-container">
+
+      <FloatingOrbs />
+      {isAuthenticated && !isLoginPage && <Header theme={theme} setTheme={setTheme} />}
+      <main className={`app-main${isLoginPage ? " app-main--auth" : ""}`}>
+        <AppRoutes
+          cycleLength={cycleLength}
+          setCycleLength={setCycleLength}
+          periodLength={periodLength}
+          setPeriodLength={setPeriodLength}
+          lastPeriod={lastPeriod}
+          setLastPeriod={setLastPeriod}
+          loggedSymptoms={loggedSymptoms}
+          setLoggedSymptoms={setLoggedSymptoms}
+          simulatedDay={simulatedDay}
+          setSimulatedDay={setSimulatedDay}
+          theme={theme}
+          setTheme={setTheme}
+        />
+      </main>
+      <footer className="app-footer">
+        <p>&copy; {new Date().getFullYear()} FlowCare. All rights reserved.</p>
+      </footer>
     </div>
   );
 }
@@ -145,24 +204,22 @@ function App() {
 
   return (
     <Router>
-      <div className="app-container">
-        <SparkleTrail />
-        <FloatingOrbs />
-        <Header theme={theme} setTheme={setTheme} />
-        <main className="app-main">
-          <AnimatedRoutes
-            cycleLength={cycleLength} setCycleLength={setCycleLength}
-            periodLength={periodLength} setPeriodLength={setPeriodLength}
-            lastPeriod={lastPeriod} setLastPeriod={setLastPeriod}
-            loggedSymptoms={loggedSymptoms} setLoggedSymptoms={setLoggedSymptoms}
-            simulatedDay={simulatedDay} setSimulatedDay={setSimulatedDay}
-            theme={theme} setTheme={setTheme}
-          />
-        </main>
-        <footer className="app-footer">
-          <p>&copy; {new Date().getFullYear()} FlowCare. Built with ❤️ </p>
-        </footer>
-      </div>
+      <AuthProvider>
+        <AppShell
+          cycleLength={cycleLength}
+          setCycleLength={setCycleLength}
+          periodLength={periodLength}
+          setPeriodLength={setPeriodLength}
+          lastPeriod={lastPeriod}
+          setLastPeriod={setLastPeriod}
+          loggedSymptoms={loggedSymptoms}
+          setLoggedSymptoms={setLoggedSymptoms}
+          simulatedDay={simulatedDay}
+          setSimulatedDay={setSimulatedDay}
+          theme={theme}
+          setTheme={setTheme}
+        />
+      </AuthProvider>
     </Router>
   );
 }

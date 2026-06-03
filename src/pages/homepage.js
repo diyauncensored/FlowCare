@@ -1,12 +1,13 @@
 import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { useTilt } from "../hooks/useTilt";
+import VideoBackground from "../components/VideoBackground";
 import "./homepage.css";
 import cycleTrackingIcon from "./images/cycle-tracking.svg";
 import moodTrackingIcon from "./images/mood-tracking.jpeg";
 import healthTipsIcon from "./images/health-tips.jpeg";
 
-// Curated affirmations
+// Curated affirmations — no emojis
 const AFFIRMATIONS = [
   "Your body is powerful and wise",
   "Rest is not laziness — it's recovery",
@@ -32,7 +33,7 @@ function TiltCard({ children, className }) {
 }
 
 function HomePage({ cycleLength, periodLength, lastPeriod, loggedSymptoms, simulatedDay, setSimulatedDay }) {
-  
+
   const getTodayString = () => new Date().toISOString().split("T")[0];
   const todayStr = getTodayString();
   const todayLogs = loggedSymptoms[todayStr];
@@ -41,7 +42,7 @@ function HomePage({ cycleLength, periodLength, lastPeriod, loggedSymptoms, simul
   const insights = useMemo(() => {
     const entries = Object.entries(loggedSymptoms);
     const totalDaysLogged = entries.length;
-    
+
     // Most common mood
     const moodCounts = {};
     let totalWater = 0;
@@ -55,10 +56,10 @@ function HomePage({ cycleLength, periodLength, lastPeriod, loggedSymptoms, simul
         waterDays++;
       }
     });
-    
+
     const topMood = Object.keys(moodCounts).sort((a, b) => moodCounts[b] - moodCounts[a])[0] || "—";
     const avgWater = waterDays > 0 ? Math.round(totalWater / waterDays) : 0;
-    
+
     // Streak: consecutive days ending at today
     let streak = 0;
     const checkDate = new Date();
@@ -132,27 +133,37 @@ function HomePage({ cycleLength, periodLength, lastPeriod, loggedSymptoms, simul
 
   return (
     <div className="home-container">
-      {/* Hero Header Section */}
+
+      {/* ─── Hero Section with Video Background ─── */}
       <section className="home-hero">
-        <h1 className="hero-logo-glow">FlowCare</h1>
-        <p className="hero-subtitle">Your personalized companion for menstrual wellness and cycle tracking.</p>
+        <VideoBackground />
+        <div className="hero-content">
+          <h1 className="hero-headline animate-fade-rise">
+            Your cycle,<br />
+            <em>your power.</em>
+          </h1>
+          <p className="hero-description animate-fade-rise-delay">
+            Your personalized companion for menstrual wellness and cycle tracking.
+          </p>
+          <Link to="/tracker" className="btn-premium hero-cta animate-fade-rise-delay-2">
+            Begin Tracking
+          </Link>
+        </div>
       </section>
 
-      {/* Affirmation Marquee */}
+      {/* ─── Affirmation Marquee ─── */}
       <section className="affirmation-marquee">
         <div className="marquee-track">
-          {/* Duplicate for seamless loop */}
           {[...AFFIRMATIONS, ...AFFIRMATIONS].map((text, i) => (
             <span key={i} className="affirmation-item">{text}</span>
           ))}
         </div>
       </section>
 
-      {/* Main Interactive Dial Widget */}
+      {/* ─── Cycle Dial Section ─── */}
       <section className="dial-section">
-        <div className="dial-glow-wrapper" style={{ boxShadow: `0 0 50px -10px ${details.glowColor}` }}>
-          <div className="dial-card glass-card">
-            
+        <div className="dial-card-wrapper">
+          <div className="dial-card">
             <div className="svg-dial-container">
               <svg className="svg-dial-ring" width="300" height="300">
                 <circle
@@ -173,7 +184,7 @@ function HomePage({ cycleLength, periodLength, lastPeriod, loggedSymptoms, simul
                   strokeDashoffset={strokeDashoffset}
                 />
               </svg>
-              
+
               <div className="dial-content">
                 <span className={`phase-badge ${details.colorClass}`}>{details.phase}</span>
                 <span className="dial-day-num">Day {simulatedDay}</span>
@@ -184,7 +195,7 @@ function HomePage({ cycleLength, periodLength, lastPeriod, loggedSymptoms, simul
 
             <div className="slider-control-panel">
               <div className="slider-label-row">
-                <span>Cycle Day Slider (Preview phases)</span>
+                <span>Cycle Day Slider</span>
                 <span className="current-sim-label">Day {simulatedDay}</span>
               </div>
               <input
@@ -204,24 +215,23 @@ function HomePage({ cycleLength, periodLength, lastPeriod, loggedSymptoms, simul
         </div>
 
         <div className="tips-card-wrapper">
-          <div className="tip-card glass-card">
+          <div className="tip-card">
             <div className="tip-header-row">
-              <span className="tip-icon"></span>
+              <div className="tip-icon-dot" />
               <div>
-                <h4 className="tip-phase-indicator">Wellness Tip • {details.phase}</h4>
+                <h4 className="tip-phase-indicator">Wellness Tip &bull; {details.phase}</h4>
                 <h3 className="tip-title">{details.tipTitle}</h3>
               </div>
             </div>
             <p className="tip-body">{details.tipText}</p>
           </div>
-          
-          <div className="today-logs-card glass-card">
+
+          <div className="today-logs-card">
             <h3>Today's Wellness Record</h3>
             {todayLogs ? (
               <div className="logs-summary-grid">
                 {todayLogs.flow && (
                   <div className="log-summary-item">
-                    <span className="summary-emoji"></span>
                     <div>
                       <p className="item-title">Flow</p>
                       <p className="item-val">{todayLogs.flow}</p>
@@ -230,7 +240,6 @@ function HomePage({ cycleLength, periodLength, lastPeriod, loggedSymptoms, simul
                 )}
                 {todayLogs.mood && (
                   <div className="log-summary-item">
-                    <span className="summary-emoji"></span>
                     <div>
                       <p className="item-title">Mood</p>
                       <p className="item-val">{todayLogs.mood}</p>
@@ -239,7 +248,6 @@ function HomePage({ cycleLength, periodLength, lastPeriod, loggedSymptoms, simul
                 )}
                 {todayLogs.water && (
                   <div className="log-summary-item">
-                    <span className="summary-emoji"></span>
                     <div>
                       <p className="item-title">Hydration</p>
                       <p className="item-val">{todayLogs.water} mL</p>
@@ -248,7 +256,6 @@ function HomePage({ cycleLength, periodLength, lastPeriod, loggedSymptoms, simul
                 )}
                 {todayLogs.sleep && (
                   <div className="log-summary-item">
-                    <span className="summary-emoji"></span>
                     <div>
                       <p className="item-title">Sleep</p>
                       <p className="item-val">{todayLogs.sleep} hrs</p>
@@ -260,7 +267,7 @@ function HomePage({ cycleLength, periodLength, lastPeriod, loggedSymptoms, simul
               <div className="empty-logs-state">
                 <p>You haven't logged any health events today.</p>
                 <Link to="/tracker" className="btn-premium">
-                  <span>Log Symptoms</span>
+                  Log Symptoms
                 </Link>
               </div>
             )}
@@ -268,48 +275,44 @@ function HomePage({ cycleLength, periodLength, lastPeriod, loggedSymptoms, simul
         </div>
       </section>
 
-      {/* Cycle Insights Analytics */}
+      {/* ─── Cycle Insights Analytics ─── */}
       <section className="insights-section">
         <h2 className="section-title">Your Cycle Insights</h2>
         <div className="insights-grid stagger-enter">
-          <TiltCard className="insight-mini-card glass-card">
-            <span className="insight-icon"></span>
+          <TiltCard className="insight-mini-card">
             <span className="insight-value">{insights.totalDaysLogged}</span>
             <span className="insight-label">Days Logged</span>
           </TiltCard>
-          <TiltCard className="insight-mini-card glass-card">
-            <span className="insight-icon"></span>
+          <TiltCard className="insight-mini-card">
             <span className="insight-value">{insights.topMood}</span>
             <span className="insight-label">Top Mood</span>
           </TiltCard>
-          <TiltCard className="insight-mini-card glass-card">
-            <span className="insight-icon"></span>
+          <TiltCard className="insight-mini-card">
             <span className="insight-value">{insights.avgWater}<small>mL</small></span>
             <span className="insight-label">Avg. Water</span>
           </TiltCard>
-          <TiltCard className="insight-mini-card glass-card">
-            <span className="insight-icon"></span>
+          <TiltCard className="insight-mini-card">
             <span className="insight-value">{insights.streak}</span>
             <span className="insight-label">Day Streak</span>
           </TiltCard>
         </div>
       </section>
 
-      {/* Futuristic Features Section */}
+      {/* ─── Features Section ─── */}
       <section className="features-grid-section">
         <h2 className="section-title">Core Wellness Features</h2>
         <div className="features-container stagger-enter">
-          <TiltCard className="feature-glow-card glass-card">
+          <TiltCard className="feature-card">
             <img src={cycleTrackingIcon} alt="Cycle Tracking" className="feature-icon-media" />
             <h3>Cycle Analysis</h3>
             <p>Predict accurate period arrival, peak fertility schedules, and hormonal shifts.</p>
           </TiltCard>
-          <TiltCard className="feature-glow-card glass-card">
+          <TiltCard className="feature-card">
             <img src={moodTrackingIcon} alt="Mood Tracking" className="feature-icon-media" />
             <h3>Mood & Habits</h3>
             <p>Understand physical patterns and how estrogen affects stress and emotional balances.</p>
           </TiltCard>
-          <TiltCard className="feature-glow-card glass-card">
+          <TiltCard className="feature-card">
             <img src={healthTipsIcon} alt="Health Tips" className="feature-icon-media" />
             <h3>Personalised AI</h3>
             <p>Talk with our intelligent chat model about symptoms, pain relief, and customized wellness.</p>
@@ -317,14 +320,15 @@ function HomePage({ cycleLength, periodLength, lastPeriod, loggedSymptoms, simul
         </div>
       </section>
 
-      {/* Interactive CTA Section */}
-      <section className="cta-glass-banner glass-card">
+      {/* ─── CTA Banner ─── */}
+      <section className="cta-banner">
         <h2>Start Monitoring Your Health Metrics</h2>
         <p>Unlock custom cycle predictions and track over 20 symptoms today.</p>
         <Link to="/tracker" className="btn-premium">
-          <span>Go to Tracker</span>
+          Go to Tracker
         </Link>
       </section>
+
     </div>
   );
 }

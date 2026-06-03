@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useAuth } from "../auth/AuthContext";
 import "./settingspage.css";
 
 function SettingsPage({
@@ -11,6 +12,7 @@ function SettingsPage({
   theme,
   setTheme
 }) {
+  const { username } = useAuth();
   const [name, setName] = useState(() => localStorage.getItem("flowcare_userName") || "Diya");
   const [email, setEmail] = useState(() => localStorage.getItem("flowcare_userEmail") || "");
   const [notifications, setNotifications] = useState(() => {
@@ -22,7 +24,6 @@ function SettingsPage({
     localStorage.setItem("flowcare_userName", name);
     localStorage.setItem("flowcare_userEmail", email);
     localStorage.setItem("flowcare_notifications", notifications.toString());
-    
     alert("Settings synchronized successfully! Your cycle predictions have been recalibrated.");
   };
 
@@ -31,104 +32,128 @@ function SettingsPage({
   };
 
   return (
-    <div className="settings-page-wrapper">
-      <section className="settings-intro">
-        <h1 className="glass-header-title">System Settings</h1>
-        <p className="glass-subtitle">Configure your biological coordinates and personalize your dashboard themes.</p>
-      </section>
+    <div className="settings-page">
+      {/* Page Header */}
+      <header className="settings-header animate-fade-rise">
+        <h1 className="settings-title">Settings</h1>
+        <p className="settings-subtitle">Manage your preferences and cycle data.</p>
+      </header>
 
-      <div className="settings-grid-container">
-        
+      <div className="settings-grid">
         {/* Profile Card */}
-        <div className="settings-card glass-card">
-          <div className="card-header-icon"></div>
-          <h2>User Profile</h2>
-          <div className="form-column">
-            <label className="form-label-item">
-              <span>Display Name</span>
+        <section className="settings-card animate-fade-rise">
+          <div className="settings-card-header">
+            <h2 className="settings-card-title">Profile</h2>
+          </div>
+          <div className="profile-summary">
+            <div className="profile-avatar">
+              <span className="profile-avatar-letter">
+                {(username || name || "U").charAt(0).toUpperCase()}
+              </span>
+            </div>
+            <div className="profile-info">
+              <span className="profile-name">{username || name}</span>
+              <span className="profile-meta">
+                {cycleLength}-day cycle &middot; {periodLength}-day period
+              </span>
+            </div>
+          </div>
+          <div className="settings-form">
+            <label className="settings-label">
+              <span className="label-text">Display Name</span>
               <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="glass-input"
+                className="settings-input"
               />
             </label>
-            <label className="form-label-item">
-              <span>Email Address</span>
+            <label className="settings-label">
+              <span className="label-text">Email Address</span>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="glass-input"
+                className="settings-input"
+                placeholder="you@example.com"
               />
             </label>
-            <label className="form-label-item">
-              <span>Change Password</span>
+            <label className="settings-label">
+              <span className="label-text">Password</span>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••••••"
-                className="glass-input"
+                placeholder="&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;&#x2022;"
+                className="settings-input"
               />
             </label>
           </div>
-        </div>
+        </section>
 
-        {/* Cycle Metrics Configurations */}
-        <div className="settings-card glass-card">
-          <div className="card-header-icon"></div>
-          <h2>Cycle Coordinates</h2>
-          <div className="form-column">
-            <label className="form-label-item">
-              <span>Cycle Duration: <strong>{cycleLength} Days</strong></span>
-              <input
-                type="range"
-                min="21"
-                max="45"
-                value={cycleLength}
-                onChange={(e) => setCycleLength(parseInt(e.target.value, 10))}
-                className="theme-gradient-slider"
-              />
-              <span className="slider-limits-sub">Normal: 24 - 35 days</span>
-            </label>
-            
-            <label className="form-label-item">
-              <span>Period Length: <strong>{periodLength} Days</strong></span>
-              <input
-                type="range"
-                min="3"
-                max="10"
-                value={periodLength}
-                onChange={(e) => setPeriodLength(parseInt(e.target.value, 10))}
-                className="theme-gradient-slider"
-              />
-              <span className="slider-limits-sub">Normal: 3 - 7 days</span>
+        {/* Cycle Data Card */}
+        <section className="settings-card animate-fade-rise-delay">
+          <div className="settings-card-header">
+            <h2 className="settings-card-title">Cycle Data</h2>
+          </div>
+          <div className="settings-form">
+            <label className="settings-label">
+              <span className="label-text">Cycle Length</span>
+              <div className="range-display">
+                <input
+                  type="range"
+                  min="21"
+                  max="45"
+                  value={cycleLength}
+                  onChange={(e) => setCycleLength(parseInt(e.target.value, 10))}
+                  className="settings-range"
+                />
+                <span className="range-value">{cycleLength} days</span>
+              </div>
+              <span className="range-hint">Normal range: 24 &ndash; 35 days</span>
             </label>
 
-            <label className="form-label-item">
-              <span>Latest Period Start Date</span>
+            <label className="settings-label">
+              <span className="label-text">Period Length</span>
+              <div className="range-display">
+                <input
+                  type="range"
+                  min="3"
+                  max="10"
+                  value={periodLength}
+                  onChange={(e) => setPeriodLength(parseInt(e.target.value, 10))}
+                  className="settings-range"
+                />
+                <span className="range-value">{periodLength} days</span>
+              </div>
+              <span className="range-hint">Normal range: 3 &ndash; 7 days</span>
+            </label>
+
+            <label className="settings-label">
+              <span className="label-text">Last Period Start</span>
               <input
                 type="date"
                 value={lastPeriod}
                 onChange={(e) => setLastPeriod(e.target.value)}
-                className="glass-input date-input"
+                className="settings-input"
               />
             </label>
           </div>
-        </div>
+        </section>
 
-        {/* System & Aesthetic Toggles */}
-        <div className="settings-card glass-card full-width-card">
-          <div className="card-header-icon"></div>
-          <h2>System Customization</h2>
-          
-          <div className="toggles-grid-row">
-            
-            <div className="toggle-item-row">
-              <div className="toggle-text-col">
-                <h3>Vibrant Dark Mode</h3>
-                <p>Switch between the soft-rose aesthetic and rich dark theme.</p>
+        {/* Preferences Card — Full Width */}
+        <section className="settings-card settings-card--full animate-fade-rise-delay-2">
+          <div className="settings-card-header">
+            <h2 className="settings-card-title">Preferences</h2>
+          </div>
+
+          <div className="toggle-rows">
+            <div className="toggle-row">
+              <div className="toggle-info">
+                <h3 className="toggle-label">Dark Mode</h3>
+                <p className="toggle-description">
+                  Switch between light and dark appearance.
+                </p>
               </div>
               <label className="toggle-switch">
                 <input
@@ -140,10 +165,12 @@ function SettingsPage({
               </label>
             </div>
 
-            <div className="toggle-item-row">
-              <div className="toggle-text-col">
-                <h3>Push Notifications</h3>
-                <p>Receive reminders for period arrivals and peak fertility alerts.</p>
+            <div className="toggle-row">
+              <div className="toggle-info">
+                <h3 className="toggle-label">Notifications</h3>
+                <p className="toggle-description">
+                  Receive reminders for period predictions and fertility alerts.
+                </p>
               </div>
               <label className="toggle-switch">
                 <input
@@ -154,17 +181,14 @@ function SettingsPage({
                 <span className="toggle-slider"></span>
               </label>
             </div>
-
           </div>
 
-          <div className="settings-actions-footer">
-            <button className="btn-premium save-settings-btn" onClick={handleSave}>
-              <span>Apply Changes</span>
+          <div className="settings-actions">
+            <button className="btn-premium save-btn" onClick={handleSave}>
+              Save Changes
             </button>
           </div>
-
-        </div>
-
+        </section>
       </div>
     </div>
   );

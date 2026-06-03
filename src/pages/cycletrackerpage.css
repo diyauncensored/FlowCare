@@ -1,80 +1,128 @@
-/* src/pages/cycletrackerpage.css */
+/* ═══════════════════════════════════════════════════════════
+   FlowCare — Cycle Tracker Page
+   Cinematic Editorial Redesign
+   ═══════════════════════════════════════════════════════════ */
 
+/* ─── Page Container ─── */
 .tracker-page-container {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 32px;
   width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
+/* ─── Page Header ─── */
+.tracker-page-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tracker-page-title {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  font-weight: 400;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.tracker-page-subtitle {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* ─── Main Grid Layout ─── */
 .tracker-grid-layout {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 32px;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 28px;
   align-items: start;
 }
 
-/* Calendar Section Panel */
-.calendar-panel.glass-card {
-  padding: 30px;
+/* ─── Calendar Panel ─── */
+.calendar-panel {
+  background: var(--bg-card-solid);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 32px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
+  box-shadow: var(--shadow-sm);
 }
 
+.calendar-panel:hover {
+  transform: none;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ─── Calendar Header ─── */
 .cal-header-controls {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
 }
 
 .cal-month-title {
-  font-family: var(--font-title);
-  font-size: 1.6rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 400;
   color: var(--text-primary);
+  letter-spacing: -0.02em;
 }
 
 .cal-nav-btn {
-  background: rgba(255, 107, 139, 0.1);
+  background: transparent;
   border: 1px solid var(--border-card);
-  color: var(--color-accent);
-  width: 40px;
-  height: 40px;
-  border-radius: 12px;
-  font-weight: bold;
+  color: var(--text-primary);
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .cal-nav-btn:hover {
-  background: var(--color-accent-gradient);
-  color: white;
-  transform: scale(1.05);
+  background: var(--bg-subtle);
+  border-color: var(--text-tertiary);
+  transform: none;
+  color: var(--text-primary);
 }
 
-/* Day labels */
+body.theme-dark .cal-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* ─── Weekday Labels ─── */
 .cal-weekday-labels {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   text-align: center;
-  font-size: 0.85rem;
-  font-weight: 700;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
   text-transform: uppercase;
-  color: var(--text-secondary);
-  border-bottom: 1px solid var(--border-card);
-  padding-bottom: 12px;
+  color: var(--text-tertiary);
+  letter-spacing: 0.06em;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-subtle);
 }
 
-/* Days grid */
+/* ─── Calendar Day Grid ─── */
 .cal-days-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 10px;
+  gap: 4px;
   min-height: 280px;
 }
 
@@ -84,10 +132,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 16px;
+  border-radius: var(--radius-sm);
   font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 1rem;
+  font-weight: 500;
+  font-size: 0.9rem;
   color: var(--text-primary);
   cursor: default;
 }
@@ -99,221 +147,300 @@
 
 .cal-cell.active-day {
   cursor: pointer;
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-body:not(.theme-dark) .cal-cell.active-day {
-  background: rgba(0, 0, 0, 0.02);
-  border: 1px solid rgba(0, 0, 0, 0.02);
+  background: transparent;
+  border: 1px solid transparent;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .cal-cell.active-day:hover {
-  transform: scale(1.08);
-  box-shadow: 0 4px 15px rgba(255, 107, 139, 0.1);
-  border-color: var(--color-accent);
+  background: var(--bg-subtle);
+  transform: none;
+  box-shadow: none;
+  border-color: var(--border-card);
 }
 
-/* Highlights */
+body.theme-dark .cal-cell.active-day:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ─── Day Highlights ─── */
+
+/* Period days — soft rose */
 .cal-day-period {
-  background: var(--color-accent-gradient) !important;
-  color: white !important;
-  box-shadow: 0 4px 15px var(--color-accent-glow);
+  background: rgba(255, 61, 100, 0.08) !important;
+  color: var(--color-accent) !important;
+  font-weight: 600 !important;
+  border-color: rgba(255, 61, 100, 0.12) !important;
 }
 
+body.theme-dark .cal-day-period {
+  background: rgba(255, 61, 100, 0.12) !important;
+  border-color: rgba(255, 61, 100, 0.18) !important;
+}
+
+/* Fertile window — soft purple */
 .cal-day-fertile {
-  background: var(--color-ovulation-glow) !important;
-  box-shadow: 0 0 10px var(--color-ovulation-glow);
-  border: 2px dashed var(--color-ovulation) !important;
+  background: rgba(152, 77, 255, 0.06) !important;
+  color: var(--color-ovulation) !important;
+  border: 1px solid rgba(152, 77, 255, 0.12) !important;
+  box-shadow: none;
 }
 
+body.theme-dark .cal-day-fertile {
+  background: rgba(152, 77, 255, 0.1) !important;
+  border-color: rgba(152, 77, 255, 0.2) !important;
+}
+
+/* Ovulation day — subtle purple accent */
 .cal-day-ovulation {
-  background: var(--color-ovulation-gradient) !important;
-  color: white !important;
-  box-shadow: 0 4px 15px var(--color-ovulation-glow);
-  border: none !important;
+  background: rgba(152, 77, 255, 0.12) !important;
+  color: var(--color-ovulation) !important;
+  font-weight: 600 !important;
+  border: 1px solid rgba(152, 77, 255, 0.2) !important;
+  box-shadow: none;
 }
 
+body.theme-dark .cal-day-ovulation {
+  background: rgba(152, 77, 255, 0.18) !important;
+  border-color: rgba(152, 77, 255, 0.28) !important;
+}
+
+/* Selected day — solid black bg, white text */
 .cal-day-selected {
-  outline: 2px solid var(--text-primary);
-  outline-offset: 2px;
+  background: var(--text-primary) !important;
+  color: var(--text-inverse) !important;
+  border-color: var(--text-primary) !important;
+  font-weight: 600 !important;
+  box-shadow: var(--shadow-sm);
 }
 
+/* Today — outlined with text-primary */
 .cal-day-today {
-  border: 2px solid var(--color-accent) !important;
+  border: 1.5px solid var(--text-primary) !important;
 }
 
 .cal-day-today::after {
   content: '';
   position: absolute;
-  top: 4px;
-  right: 4px;
-  width: 6px;
-  height: 6px;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
   background: var(--color-accent);
   border-radius: 50%;
 }
 
+.cal-day-selected.cal-day-today::after {
+  background: var(--text-inverse);
+}
+
+/* Future days — muted text */
+.cal-day-future {
+  color: var(--text-tertiary) !important;
+}
+
+/* Ovulation heart emoji */
 .cal-ovulation-heart {
   position: absolute;
-  bottom: 2px;
+  bottom: 1px;
   right: 2px;
-  font-size: 0.6rem;
+  font-size: 0.55rem;
+  line-height: 1;
 }
 
+.cal-day-selected .cal-ovulation-heart {
+  filter: brightness(2);
+}
+
+/* Log indicator dot */
 .cal-log-dot {
   position: absolute;
-  bottom: 4px;
-  width: 5px;
-  height: 5px;
+  bottom: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
   border-radius: 50%;
-  background: var(--color-success, #2EC4B6);
-  box-shadow: 0 0 6px var(--color-success);
+  background: var(--color-success);
 }
 
-.cal-day-period .cal-log-dot,
-.cal-day-ovulation .cal-log-dot {
-  background: white;
+.cal-day-today .cal-log-dot {
+  bottom: 10px;
 }
 
-/* Legend panel */
+.cal-day-selected .cal-log-dot {
+  background: var(--text-inverse);
+}
+
+/* ─── Legend ─── */
 .cal-legend {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px 24px;
+  gap: 12px 20px;
   justify-content: center;
-  padding: 16px;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
-  border: 1px solid var(--border-card);
+  padding: 14px 16px;
+  background: var(--bg-subtle);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
 }
 
 body.theme-dark .cal-legend {
-  background: rgba(255, 255, 255, 0.01);
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .legend-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 0.85rem;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
   color: var(--text-secondary);
   font-weight: 500;
+  letter-spacing: -0.01em;
 }
 
 .legend-dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .dot-period {
-  background: var(--color-accent-gradient);
+  background: var(--color-accent);
 }
 
 .dot-fertile {
-  border: 2px dashed var(--color-ovulation);
-  background: var(--color-ovulation-glow);
+  background: rgba(152, 77, 255, 0.2);
+  border: 1.5px solid var(--color-ovulation);
 }
 
 .dot-ovulation {
-  background: var(--color-ovulation-gradient);
+  background: var(--color-ovulation);
 }
 
 .dot-log {
-  background: #2EC4B6;
+  background: var(--color-success);
 }
 
-/* Fast settings Row */
+/* ─── Cycle Calibrator (Fast Settings) ─── */
 .cal-fast-settings {
-  border-top: 1px solid var(--border-card);
+  border-top: 1px solid var(--border-subtle);
   padding-top: 20px;
 }
 
 .cal-fast-settings h3 {
-  font-size: 1.1rem;
-  margin-bottom: 12px;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 400;
+  margin-bottom: 14px;
   color: var(--text-primary);
+  letter-spacing: -0.02em;
 }
 
 .fast-settings-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
 }
 
 .fast-settings-row label {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--text-secondary);
+  gap: 5px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  letter-spacing: -0.01em;
 }
 
 .fast-settings-row input {
-  background: rgba(255, 255, 255, 0.4);
+  background: var(--bg-subtle);
   border: 1px solid var(--border-card);
   color: var(--text-primary);
-  border-radius: 12px;
-  padding: 8px 12px;
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
   font-family: var(--font-body);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 500;
   outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.fast-settings-row input:focus {
+  border-color: var(--text-tertiary);
 }
 
 body.theme-dark .fast-settings-row input {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.04);
 }
 
-/* Symptom Logger Drawer Drawer */
-.logger-panel.glass-card {
-  padding: 30px;
+/* ─── Logger Panel ─── */
+.logger-panel {
+  background: var(--bg-card-solid);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-lg);
+  padding: 28px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  height: 100%;
+  gap: 20px;
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 24px;
 }
 
+.logger-panel:hover {
+  transform: none;
+  box-shadow: var(--shadow-sm);
+}
+
+/* ─── Logger Header ─── */
 .logger-header {
-  border-bottom: 1px solid var(--border-card);
-  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  padding-bottom: 14px;
 }
 
 .logger-header h2 {
-  font-family: var(--font-title);
-  font-size: 1.6rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 400;
   color: var(--text-primary);
+  letter-spacing: -0.02em;
 }
 
 .logger-target-date {
-  font-size: 0.95rem;
-  font-weight: 600;
-  color: var(--color-accent);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
   margin-top: 4px;
+  letter-spacing: -0.01em;
 }
 
+/* ─── Logger Body ─── */
 .logger-body-scroller {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  max-height: 480px;
+  gap: 22px;
+  max-height: 520px;
   overflow-y: auto;
-  padding-right: 8px;
+  padding-right: 6px;
 }
 
 .logger-group {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .logger-group h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 400;
   color: var(--text-primary);
+  letter-spacing: -0.02em;
 }
 
 .group-header-label {
@@ -323,85 +450,103 @@ body.theme-dark .fast-settings-row input {
 }
 
 .value-metric {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--color-accent);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
 }
 
-/* Choice Chips Row */
+/* ─── Choice Chips ─── */
 .chips-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 8px;
 }
 
 .choice-chip {
-  background: rgba(255, 255, 255, 0.4);
+  background: transparent;
   border: 1px solid var(--border-card);
   color: var(--text-primary);
   font-family: var(--font-body);
-  font-weight: 600;
-  font-size: 0.85rem;
+  font-weight: 500;
+  font-size: 0.82rem;
   padding: 8px 16px;
-  border-radius: 50px;
+  border-radius: var(--radius-full);
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 6px;
-  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-body.theme-dark .choice-chip {
-  background: rgba(255, 255, 255, 0.03);
+  gap: 5px;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+  letter-spacing: -0.01em;
 }
 
 .choice-chip:hover {
-  transform: translateY(-1px);
-  border-color: var(--color-accent);
+  background: var(--bg-subtle);
+  border-color: var(--text-tertiary);
+  transform: none;
 }
 
+body.theme-dark .choice-chip:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Selected chips — solid black bg, white text */
 .choice-chip.selected {
-  background: var(--color-accent-gradient);
-  color: white;
-  border-color: transparent;
-  box-shadow: 0 4px 12px var(--color-accent-glow);
+  background: var(--text-primary);
+  color: var(--text-inverse);
+  border-color: var(--text-primary);
+  box-shadow: none;
+  font-weight: 600;
 }
 
-/* Mood icons spacing */
+/* Mood chips spacing */
 .chips-row.moods .choice-chip {
-  padding: 10px 18px;
-  font-size: 0.9rem;
+  padding: 8px 14px;
 }
 
-/* Stepper Hydration display */
+/* ─── Water Stepper ─── */
 .water-stepper {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   width: 100%;
 }
 
 .stepper-btn {
-  background: var(--color-accent-gradient);
-  color: white;
-  border: none;
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
-  font-weight: 700;
+  background: transparent;
+  border: 1px solid var(--border-card);
+  color: var(--text-primary);
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.8rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 10px var(--color-accent-glow);
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  box-shadow: none;
+}
+
+.stepper-btn:hover {
+  background: var(--bg-subtle);
+  border-color: var(--text-tertiary);
+}
+
+body.theme-dark .stepper-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
 }
 
 .water-level-display {
   flex-grow: 1;
-  height: 44px;
-  background: rgba(255, 255, 255, 0.25);
+  height: 42px;
+  background: var(--bg-subtle);
   border: 1px solid var(--border-card);
-  border-radius: 14px;
+  border-radius: var(--radius-sm);
   position: relative;
   overflow: hidden;
   display: flex;
@@ -410,7 +555,7 @@ body.theme-dark .choice-chip {
 }
 
 body.theme-dark .water-level-display {
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .water-level-fill {
@@ -418,40 +563,75 @@ body.theme-dark .water-level-display {
   left: 0;
   top: 0;
   height: 100%;
-  background: linear-gradient(135deg, #7AD7FF 0%, #30A4FF 100%);
+  background: rgba(46, 196, 182, 0.15);
   transition: width 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
   z-index: 1;
+}
+
+body.theme-dark .water-level-fill {
+  background: rgba(46, 196, 182, 0.12);
 }
 
 .water-inner-txt {
   position: relative;
   z-index: 2;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.4);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  text-shadow: none;
 }
 
 body.theme-dark .water-inner-txt {
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
+  text-shadow: none;
 }
 
-/* Sleep slider adjustment */
+/* ─── Sleep Slider ─── */
 .sleep-slider {
-  margin-top: 6px;
+  width: 100%;
+  margin-top: 4px;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--border-card);
+  outline: none;
+  cursor: pointer;
 }
 
-/* Footer layout inside Logger drawer */
+.sleep-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--text-primary);
+  cursor: pointer;
+  border: 2px solid var(--bg-card-solid);
+  box-shadow: var(--shadow-xs);
+}
+
+.sleep-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--text-primary);
+  cursor: pointer;
+  border: 2px solid var(--bg-card-solid);
+  box-shadow: var(--shadow-xs);
+}
+
+/* ─── Logger Footer Actions ─── */
 .logger-actions-footer {
-  border-top: 1px solid var(--border-card);
-  padding-top: 20px;
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 18px;
   display: flex;
-  gap: 12px;
+  gap: 10px;
 }
 
 .save-logs-btn {
   flex-grow: 1;
-  padding: 14px;
+  padding: 13px 24px;
 }
 
 .clear-logs-btn {
@@ -459,22 +639,99 @@ body.theme-dark .water-inner-txt {
   border: 1px solid var(--border-card);
   color: var(--text-secondary);
   font-family: var(--font-body);
-  font-weight: 600;
+  font-weight: 500;
+  font-size: 0.85rem;
   padding: 10px 18px;
-  border-radius: 50px;
+  border-radius: var(--radius-full);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
+  letter-spacing: -0.01em;
 }
 
 .clear-logs-btn:hover {
-  background: rgba(255, 61, 100, 0.08);
+  background: rgba(255, 61, 100, 0.05);
   color: var(--color-accent);
-  border-color: var(--color-accent);
+  border-color: rgba(255, 61, 100, 0.2);
 }
 
-/* Response on drawer activation */
-@media (max-width: 900px) {
+/* ─── Responsive: 768px ─── */
+@media (max-width: 768px) {
   .tracker-grid-layout {
     grid-template-columns: 1fr;
+  }
+
+  .tracker-page-title {
+    font-size: 1.9rem;
+  }
+
+  .calendar-panel {
+    padding: 24px;
+  }
+
+  .logger-panel {
+    position: static;
+    padding: 24px;
+  }
+
+  .fast-settings-row {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .fast-settings-row label:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 600px) {
+  .tracker-page-container {
+    gap: 20px;
+  }
+
+  .tracker-page-title {
+    font-size: 1.6rem;
+  }
+
+  .calendar-panel {
+    padding: 18px;
+    border-radius: var(--radius-md);
+  }
+
+  .logger-panel {
+    padding: 18px;
+    border-radius: var(--radius-md);
+  }
+
+  .cal-month-title {
+    font-size: 1.25rem;
+  }
+
+  .cal-cell {
+    font-size: 0.82rem;
+  }
+
+  .fast-settings-row {
+    grid-template-columns: 1fr;
+  }
+
+  .fast-settings-row label:last-child {
+    grid-column: auto;
+  }
+
+  .chips-row {
+    gap: 6px;
+  }
+
+  .choice-chip {
+    font-size: 0.78rem;
+    padding: 7px 12px;
+  }
+
+  .logger-actions-footer {
+    flex-direction: column;
+  }
+
+  .clear-logs-btn {
+    text-align: center;
   }
 }

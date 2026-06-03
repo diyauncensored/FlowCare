@@ -1,79 +1,64 @@
-/* src/App.css */
+/* src/App.css — Phase 3 Cinematic Layout */
 
-/* Core Layout Wrappers */
+/* Core Layout */
 .app-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   width: 100%;
+  background: var(--bg-main);
 }
 
 .app-main {
   flex-grow: 1;
   width: 100%;
-  max-width: 1280px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 40px 24px;
+  padding: 48px 32px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  animation: fadeInApp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation: fadeRise 0.6s ease-out both;
 }
 
-/* Animations for Page Transitions */
-@keyframes fadeInApp {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.app-main--auth {
+  max-width: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
 }
 
-/* Route Transition Wrapper */
+/* Route Transition */
 .route-transition-wrapper {
-  animation: routeFadeIn 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation: fadeRise 0.45s ease-out both;
 }
 
-@keyframes routeFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(16px) scale(0.99);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* Common Interactive Utility Elements */
+/* ─── Section Titles (global) ─── */
 .glass-header-title {
-  font-family: var(--font-title);
-  font-size: 2.5rem;
-  font-weight: 700;
+  font-family: var(--font-display);
+  font-size: 2.8rem;
+  font-weight: 400;
   text-align: center;
-  background: var(--color-accent-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--text-primary);
   margin-bottom: 8px;
   letter-spacing: -0.03em;
 }
 
 .glass-subtitle {
-  font-size: 1.1rem;
+  font-family: var(--font-body);
+  font-size: 1.05rem;
   color: var(--text-secondary);
   text-align: center;
   margin-bottom: 40px;
+  font-weight: 400;
 }
 
-/* Glass-style Toggle Switches (Switch Theme etc) */
+/* ─── Toggle Switch ─── */
 .toggle-switch {
   position: relative;
   display: inline-block;
-  width: 60px;
-  height: 32px;
+  width: 56px;
+  height: 30px;
 }
 
 .toggle-switch input {
@@ -85,69 +70,62 @@
 .toggle-slider {
   position: absolute;
   cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(255, 255, 255, 0.2);
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: var(--border-card);
   border: 1px solid var(--border-card);
   transition: .4s;
-  border-radius: 34px;
+  border-radius: var(--radius-full);
 }
 
 body:not(.theme-dark) .toggle-slider {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(0, 0, 0, 0.08);
 }
 
 .toggle-slider:before {
   position: absolute;
   content: "";
-  height: 24px;
-  width: 24px;
+  height: 22px;
+  width: 22px;
   left: 3px;
   bottom: 3px;
   background-color: white;
   transition: .4s;
   border-radius: 50%;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: var(--shadow-xs);
 }
 
 input:checked + .toggle-slider {
-  background: var(--color-accent-gradient);
+  background: var(--text-primary);
 }
 
 input:checked + .toggle-slider:before {
-  transform: translateX(28px);
+  transform: translateX(26px);
 }
 
-/* Keyframes for custom micro-actions */
+/* ─── Micro Animations ─── */
 @keyframes pulseHeart {
-  0% { transform: scale(1); }
-  14% { transform: scale(1.15); }
-  28% { transform: scale(1); }
-  42% { transform: scale(1.15); }
-  70% { transform: scale(1); }
+  0%   { transform: scale(1); }
+  14%  { transform: scale(1.12); }
+  28%  { transform: scale(1); }
+  42%  { transform: scale(1.12); }
+  70%  { transform: scale(1); }
 }
 
 @keyframes pulseGlowRing {
-  0% {
-    box-shadow: 0 0 0 0 var(--color-accent-glow);
-  }
-  70% {
-    box-shadow: 0 0 0 15px rgba(255, 61, 100, 0);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(255, 61, 100, 0);
-  }
+  0%   { box-shadow: 0 0 0 0 var(--color-accent-glow); }
+  70%  { box-shadow: 0 0 0 12px rgba(255, 61, 100, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 61, 100, 0); }
 }
 
-/* Responsive adjustments */
+/* ─── Responsive ─── */
 @media (max-width: 768px) {
   .app-main {
     padding: 24px 16px;
   }
-  
+  .app-main--auth {
+    padding: 0;
+  }
   .glass-header-title {
-    font-size: 2rem;
+    font-size: 2.2rem;
   }
 }

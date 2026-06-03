@@ -1,25 +1,31 @@
-/* src/components/header.css */
+/* ═══════════════════════════════════════════════════════════
+   Header — Cinematic Editorial Style
+   ═══════════════════════════════════════════════════════════ */
 
-.glass-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 40px;
-  background: var(--bg-card);
-  backdrop-filter: blur(var(--blur-amount));
-  -webkit-backdrop-filter: blur(var(--blur-amount));
-  border-bottom: 1px solid var(--border-card);
+.site-header {
   position: sticky;
   top: 0;
   z-index: 1000;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.02);
+  background: var(--bg-main);
+  border-bottom: 1px solid var(--border-card);
 }
 
-body.theme-dark .glass-header {
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+body.theme-dark .site-header {
+  background: var(--bg-main);
+  border-bottom-color: var(--border-card);
 }
 
-/* Brand Logo */
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  height: 64px;
+}
+
+/* ─── Logo ─── */
 .header-logo a {
   display: flex;
   align-items: center;
@@ -28,35 +34,26 @@ body.theme-dark .glass-header {
 }
 
 .logo-droplet {
-  width: 28px;
-  height: 28px;
-  animation: pulseHeart 3s infinite ease-in-out;
-  filter: drop-shadow(0 0 0 transparent);
-  transition: filter 0.3s ease;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
 }
 
-body.theme-dark .logo-droplet {
-  filter: drop-shadow(0 0 8px rgba(255, 61, 100, 0.6));
-  animation: pulseHeart 3s infinite ease-in-out, logoBreath 3s infinite ease-in-out;
-}
-
-@keyframes logoBreath {
-  0%   { filter: drop-shadow(0 0 6px rgba(255, 61, 100, 0.4)); }
-  50%  { filter: drop-shadow(0 0 14px rgba(255, 61, 100, 0.7)); }
-  100% { filter: drop-shadow(0 0 6px rgba(255, 61, 100, 0.4)); }
+.header-logo a:hover .logo-droplet {
+  transform: scale(1.08);
 }
 
 .logo-text {
-  font-family: var(--font-title);
-  font-size: 1.6rem;
-  font-weight: 700;
-  background: var(--color-accent-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 400;
+  color: var(--text-primary);
   letter-spacing: -0.03em;
+  line-height: 1;
 }
 
-/* Navigation Links */
+/* ─── Navigation ─── */
 .header-nav {
   display: flex;
   align-items: center;
@@ -65,165 +62,195 @@ body.theme-dark .logo-droplet {
 .nav-links {
   list-style: none;
   display: flex;
-  gap: 16px;
+  align-items: center;
+  gap: 4px;
 }
 
-.nav-links a {
-  display: flex;
+.nav-link {
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  border-radius: 50px;
+  padding: 6px 16px;
   font-family: var(--font-body);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   font-weight: 500;
   color: var(--text-secondary);
   text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  border-bottom: 2px solid transparent;
+  transition: color 0.25s ease, border-color 0.25s ease;
 }
 
-.nav-links a:hover {
-  color: var(--color-accent);
-  background: rgba(255, 107, 139, 0.08);
-  transform: translateY(-1px);
+.nav-link:hover {
+  color: var(--text-primary);
 }
 
-body.theme-dark .nav-links a:hover {
-  background: rgba(255, 61, 100, 0.12);
+.nav-link.active {
+  color: var(--text-primary);
+  border-bottom-color: var(--text-primary);
 }
 
-.nav-links a.active-link {
-  color: white;
-  background: var(--color-accent-gradient);
-  box-shadow: 0 4px 15px var(--color-accent-glow);
-  position: relative;
-}
-
-.nav-links a.active-link::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 20%;
-  width: 60%;
-  height: 3px;
-  background: var(--color-accent-gradient);
-  border-radius: 2px;
-  animation: underlineGlide 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-  box-shadow: 0 0 8px var(--color-accent-glow);
-}
-
-@keyframes underlineGlide {
-  from {
-    width: 0;
-    left: 50%;
-    opacity: 0;
-  }
-  to {
-    width: 60%;
-    left: 20%;
-    opacity: 1;
-  }
-}
-
-.nav-links a.active-link .nav-icon {
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
-}
-
-/* Theme Toggle Actions */
+/* ─── Actions ─── */
 .header-actions {
   display: flex;
   align-items: center;
+  gap: 12px;
 }
 
-.theme-toggle-btn {
-  background: rgba(255, 255, 255, 0.4);
+/* User chip — minimal text-only */
+.header-user-chip {
+  display: flex;
+  align-items: center;
+  padding: 0 4px;
+}
+
+.user-name {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Logout — outlined */
+.logout-btn {
+  background: transparent;
   border: 1px solid var(--border-card);
-  color: var(--text-primary);
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
+  color: var(--text-secondary);
+  height: 36px;
+  padding: 0 18px;
+  border-radius: var(--radius-full);
   cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 500;
+  transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+
+.logout-btn:hover {
+  color: var(--text-primary);
+  border-color: var(--text-primary);
+}
+
+body.theme-dark .logout-btn:hover {
+  border-color: var(--text-primary);
+  color: var(--text-primary);
+}
+
+/* Theme toggle — clean circle */
+.theme-toggle-btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.2rem;
-  box-shadow: var(--shadow-card);
-  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-body.theme-dark .theme-toggle-btn {
-  background: rgba(255, 255, 255, 0.05);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid var(--border-card);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
 }
 
 .theme-toggle-btn:hover {
-  transform: scale(1.08) rotate(15deg);
-  background: rgba(255, 107, 139, 0.15);
-  box-shadow: 0 4px 15px var(--color-accent-glow);
+  color: var(--text-primary);
+  border-color: var(--text-primary);
+  transform: scale(1.05);
 }
 
-/* Responsiveness */
+.theme-icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Responsive
+   ═══════════════════════════════════════════════════════════ */
+
 @media (max-width: 900px) {
-  .glass-header {
-    padding: 10px 20px;
-    gap: 12px;
+  .header-inner {
+    padding: 0 20px;
+    height: 56px;
   }
-  
+
   .logo-text {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
   }
-  
+
   .logo-droplet {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
   }
-  
+
   .nav-links {
-    gap: 8px;
+    gap: 0;
   }
-  
-  .nav-links a {
-    padding: 8px 14px;
-    font-size: 0.85rem;
+
+  .nav-link {
+    padding: 6px 10px;
+    font-size: 0.82rem;
+  }
+
+  .header-user-chip {
+    display: none;
+  }
+
+  .logout-btn {
+    height: 32px;
+    padding: 0 14px;
+    font-size: 0.78rem;
+  }
+
+  .theme-toggle-btn {
+    width: 32px;
+    height: 32px;
+  }
+
+  .theme-icon {
+    width: 16px;
+    height: 16px;
   }
 }
 
 @media (max-width: 600px) {
-  .glass-header {
-    padding: 8px 12px;
-    justify-content: space-between;
+  .header-inner {
+    padding: 0 14px;
+    height: 50px;
     gap: 4px;
   }
-  
+
   .logo-text {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
   }
-  
+
   .logo-droplet {
-    width: 20px;
-    height: 20px;
-    gap: 6px;
+    width: 18px;
+    height: 18px;
   }
-  
+
   .header-logo a {
     gap: 6px;
   }
-  
-  .nav-links {
-    gap: 2px;
+
+  .nav-link {
+    padding: 4px 7px;
+    font-size: 0.75rem;
   }
-  
-  .nav-links a {
-    padding: 6px 8px;
-    font-size: 0.78rem;
+
+  .logout-btn {
+    height: 28px;
+    padding: 0 10px;
+    font-size: 0.72rem;
   }
-  
+
   .theme-toggle-btn {
-    width: 32px;
-    height: 32px;
-    font-size: 0.95rem;
+    width: 28px;
+    height: 28px;
   }
-  
-  .nav-text {
-    display: inline-block;
+
+  .theme-icon {
+    width: 14px;
+    height: 14px;
   }
 }
