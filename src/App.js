@@ -9,11 +9,8 @@ import Header from "./components/header";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider, useAuth } from "./auth/AuthContext";
 import { getSettings, saveSettings, getSymptoms } from "./api/flowcareApi";
-
 import FloatingOrbs from "./components/FloatingOrbs";
 import "./App.css";
-
-// ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function getDefaultLastPeriod() {
   const d = new Date();
@@ -25,12 +22,9 @@ function calcSimulatedDay(lastPeriod, cycleLength) {
   if (!lastPeriod) return 1;
   const today = new Date();
   const lastDate = new Date(lastPeriod);
-  const diffTime = Math.abs(today - lastDate);
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  const diffDays = Math.ceil(Math.abs(today - lastDate) / (1000 * 60 * 60 * 24));
   return ((diffDays - 1) % cycleLength) + 1 || 1;
 }
-
-// ─── Route tree ───────────────────────────────────────────────────────────────
 
 function AppRoutes({
   cycleLength, setCycleLength,
@@ -160,12 +154,10 @@ function AppShell({
   );
 }
 
-// ─── Data manager — lives inside AuthProvider so it can read username ─────────
-
+// AppData sits inside AuthProvider so it can read the logged-in username
 function AppData({ theme, setTheme }) {
   const { isAuthenticated, username } = useAuth();
 
-  // ── State ────────────────────────────────────────────────────────────────────
   const [cycleLength, setCycleLengthState] = useState(28);
   const [periodLength, setPeriodLengthState] = useState(5);
   const [lastPeriod, setLastPeriodState] = useState(getDefaultLastPeriod());
@@ -173,10 +165,9 @@ function AppData({ theme, setTheme }) {
   const [simulatedDay, setSimulatedDay] = useState(1);
   const [dataLoaded, setDataLoaded] = useState(false);
 
-  // ── Load data from SQLite (with localStorage fallback) when user logs in ──────
+  // Load user data from SQLite on login; fall back to localStorage if backend is offline
   useEffect(() => {
     if (!isAuthenticated || !username) {
-      // Reset to defaults on logout
       setCycleLengthState(28);
       setPeriodLengthState(5);
       setLastPeriodState(getDefaultLastPeriod());
@@ -197,22 +188,17 @@ function AppData({ theme, setTheme }) {
 
         if (cancelled) return;
 
-        // Settings: use API result, fall back to localStorage, then defaults
         if (settings) {
           setCycleLengthState(settings.cycleLength ?? 28);
           setPeriodLengthState(settings.periodLength ?? 5);
           setLastPeriodState(settings.lastPeriod || getDefaultLastPeriod());
         } else {
-          // Backend offline — load from localStorage
-          const cl = parseInt(localStorage.getItem("flowcare_cycleLength") || "28", 10);
-          const pl = parseInt(localStorage.getItem("flowcare_periodLength") || "5", 10);
-          const lp = localStorage.getItem("flowcare_lastPeriod") || getDefaultLastPeriod();
-          setCycleLengthState(cl);
-          setPeriodLengthState(pl);
-          setLastPeriodState(lp);
+          // Backend offline — read from localStorage
+          setCycleLengthState(parseInt(localStorage.getItem("flowcare_cycleLength") || "28", 10));
+          setPeriodLengthState(parseInt(localStorage.getItem("flowcare_periodLength") || "5", 10));
+          setLastPeriodState(localStorage.getItem("flowcare_lastPeriod") || getDefaultLastPeriod());
         }
 
-        // Symptoms: use API result, fall back to localStorage
         if (symptoms !== null) {
           setLoggedSymptoms(symptoms);
         } else {
@@ -221,15 +207,11 @@ function AppData({ theme, setTheme }) {
         }
       } catch (err) {
         console.error("[App] Failed to load user data:", err);
-        // Hard fallback to localStorage on any unexpected error
-        const cl = parseInt(localStorage.getItem("flowcare_cycleLength") || "28", 10);
-        const pl = parseInt(localStorage.getItem("flowcare_periodLength") || "5", 10);
-        const lp = localStorage.getItem("flowcare_lastPeriod") || getDefaultLastPeriod();
-        const raw = localStorage.getItem("flowcare_loggedSymptoms");
         if (!cancelled) {
-          setCycleLengthState(cl);
-          setPeriodLengthState(pl);
-          setLastPeriodState(lp);
+          setCycleLengthState(parseInt(localStorage.getItem("flowcare_cycleLength") || "28", 10));
+          setPeriodLengthState(parseInt(localStorage.getItem("flowcare_periodLength") || "5", 10));
+          setLastPeriodState(localStorage.getItem("flowcare_lastPeriod") || getDefaultLastPeriod());
+          const raw = localStorage.getItem("flowcare_loggedSymptoms");
           setLoggedSymptoms(raw ? JSON.parse(raw) : {});
         }
       } finally {
@@ -241,23 +223,19 @@ function AppData({ theme, setTheme }) {
     return () => { cancelled = true; };
   }, [isAuthenticated, username]);
 
-  // ── Recalculate simulated day when relevant settings change ──────────────────
   useEffect(() => {
     setSimulatedDay(calcSimulatedDay(lastPeriod, cycleLength));
   }, [lastPeriod, cycleLength]);
 
-  // ── Persist settings to SQLite + localStorage whenever they change ───────────
+  // Always write to localStorage as backup, then try SQLite
   const persistSettings = useCallback(async (cl, pl, lp) => {
     if (!isAuthenticated || !username || !dataLoaded) return;
-    // Always write to localStorage as backup (works offline)
     localStorage.setItem("flowcare_cycleLength", String(cl));
     localStorage.setItem("flowcare_periodLength", String(pl));
     localStorage.setItem("flowcare_lastPeriod", lp);
-    // Also try to save to SQLite (no-ops silently if backend is down)
     await saveSettings(username, { cycleLength: cl, periodLength: pl, lastPeriod: lp });
   }, [isAuthenticated, username, dataLoaded]);
 
-  // Wrapped setters that update state AND persist to DB
   const setCycleLength = useCallback((val) => {
     setCycleLengthState((prev) => {
       const next = typeof val === "function" ? val(prev) : val;
@@ -282,17 +260,12 @@ function AppData({ theme, setTheme }) {
     });
   }, [persistSettings, cycleLength, periodLength]);
 
-  // ── Theme — still uses localStorage (UI preference only) ────────────────────
+  // Theme is a UI preference — localStorage only, no need to hit the DB
   useEffect(() => {
-    if (theme === "dark") {
-      document.body.classList.add("theme-dark");
-    } else {
-      document.body.classList.remove("theme-dark");
-    }
+    document.body.classList.toggle("theme-dark", theme === "dark");
     localStorage.setItem("flowcare_theme", theme);
   }, [theme]);
 
-  // ── Loading screen while data fetches from DB ────────────────────────────────
   if (isAuthenticated && !dataLoaded) {
     return (
       <div className="app-loading">
@@ -318,8 +291,6 @@ function AppData({ theme, setTheme }) {
     />
   );
 }
-
-// ─── Root App ─────────────────────────────────────────────────────────────────
 
 function App() {
   const [theme, setTheme] = useState(() => {
