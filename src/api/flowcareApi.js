@@ -2,24 +2,34 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: "/api",
-  timeout: 5000,
+  timeout: 2000, // short timeout — fail fast if backend isn't there
   headers: { "Content-Type": "application/json" },
 });
 
-// Treats the error as "server is down" if there's no response, if it timed out,
-// if the CRA proxy returned a 5xx HTML page (backend not running locally),
-// or if Vercel/any static host returned 404 (Express API not deployed there).
+// Returns true when the error (or response) means the backend simply isn't running.
+// This covers: no response, axios timeout, proxy 5xx, Vercel 404, and the tricky
+// case where Vercel's SPA fallback serves index.html with status 200 for POST requests.
 function isServerDown(err) {
   if (!err.response) return true;
   if (err.code === "ECONNABORTED") return true;
   if (err.response.status >= 500) return true;
-  if (err.response.status === 404) return true; // API not deployed on this host
+  if (err.response.status === 404) return true;
   return false;
+}
+
+// Returns true if the response body looks like a real API response (has an "ok" field).
+// Vercel's SPA fallback returns HTML with status 200 — this catches that case.
+function isValidApiResponse(data) {
+  return typeof data === "object" && data !== null && "ok" in data;
 }
 
 export async function loginUser(username, password) {
   try {
     const res = await api.post("/auth/login", { username, password });
+    if (!isValidApiResponse(res.data)) {
+      // Got 200 but it's not our API — likely Vercel serving index.html
+      return { ok: false, serverReachable: false, message: "Backend offline." };
+    }
     return { ...res.data, serverReachable: true };
   } catch (err) {
     if (isServerDown(err)) {
@@ -33,6 +43,7 @@ export async function loginUser(username, password) {
 export async function getSettings(username) {
   try {
     const res = await api.get(`/settings/${encodeURIComponent(username)}`);
+    if (!isValidApiResponse(res.data)) return null;
     return res.data;
   } catch (err) {
     if (isServerDown(err)) return null;
@@ -53,6 +64,7 @@ export async function saveSettings(username, settings) {
 export async function getSymptoms(username) {
   try {
     const res = await api.get(`/symptoms/${encodeURIComponent(username)}`);
+    if (typeof res.data !== "object" || res.data === null) return null;
     return res.data;
   } catch (err) {
     if (isServerDown(err)) return null;
