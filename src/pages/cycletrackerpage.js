@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { saveSymptom } from "../api/flowcareApi";
+import { useAuth } from "../auth/AuthContext";
 import "./cycletrackerpage.css";
 
 function CycleTrackerPage({
@@ -11,6 +13,7 @@ function CycleTrackerPage({
   loggedSymptoms,
   setLoggedSymptoms
 }) {
+  const { username } = useAuth();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDateStr, setSelectedDateStr] = useState("");
   const [showLogger, setShowLogger] = useState(false);
@@ -116,27 +119,37 @@ function CycleTrackerPage({
     setShowLogger(true);
   };
 
-  // Handle symptoms save
-  const handleSaveLogs = () => {
+  // Handle symptoms save — updates local state AND persists to SQLite via API
+  const handleSaveLogs = async () => {
+    const symptomData = { flow, mood, painList, water, sleep };
+
+    // Optimistic local update (UI stays fast)
     const newLogs = {
       ...loggedSymptoms,
-      [selectedDateStr]: {
-        flow,
-        mood,
-        painList,
-        water,
-        sleep
-      }
+      [selectedDateStr]: symptomData,
     };
     setLoggedSymptoms(newLogs);
+
+    // Persist to SQLite
+    if (username) {
+      await saveSymptom(username, selectedDateStr, symptomData);
+    }
+
     alert(`Wellness metrics saved for ${selectedDateStr}!`);
   };
 
-  // Clear symptoms for a date
-  const handleClearLogs = () => {
+  // Clear symptoms for a date — resets to empty values in SQLite
+  const handleClearLogs = async () => {
     const newLogs = { ...loggedSymptoms };
     delete newLogs[selectedDateStr];
     setLoggedSymptoms(newLogs);
+
+    // Save empty record to DB (effectively clears it)
+    if (username) {
+      await saveSymptom(username, selectedDateStr, {
+        flow: "", mood: "", painList: [], water: 0, sleep: 8,
+      });
+    }
   };
 
   const togglePain = (symptom) => {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { BrowserRouter as Router, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import HomePage from "./pages/homepage";
 import CycleTrackerPage from "./pages/cycletrackerpage";
@@ -8,9 +8,29 @@ import LoginPage from "./pages/loginpage";
 import Header from "./components/header";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { AuthProvider, useAuth } from "./auth/AuthContext";
+import { getSettings, saveSettings, getSymptoms } from "./api/flowcareApi";
 
 import FloatingOrbs from "./components/FloatingOrbs";
 import "./App.css";
+
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+
+function getDefaultLastPeriod() {
+  const d = new Date();
+  d.setDate(d.getDate() - 10);
+  return d.toISOString().split("T")[0];
+}
+
+function calcSimulatedDay(lastPeriod, cycleLength) {
+  if (!lastPeriod) return 1;
+  const today = new Date();
+  const lastDate = new Date(lastPeriod);
+  const diffTime = Math.abs(today - lastDate);
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  return ((diffDays - 1) % cycleLength) + 1 || 1;
+}
+
+// ─── Route tree ───────────────────────────────────────────────────────────────
 
 function AppRoutes({
   cycleLength, setCycleLength,
@@ -115,7 +135,6 @@ function AppShell({
 
   return (
     <div className="app-container">
-
       <FloatingOrbs />
       {isAuthenticated && !isLoginPage && <Header theme={theme} setTheme={setTheme} />}
       <main className={`app-main${isLoginPage ? " app-main--auth" : ""}`}>
@@ -141,58 +160,104 @@ function AppShell({
   );
 }
 
-function App() {
-  const [cycleLength, setCycleLength] = useState(() => {
-    return parseInt(localStorage.getItem("flowcare_cycleLength") || "28", 10);
-  });
-  
-  const [periodLength, setPeriodLength] = useState(() => {
-    return parseInt(localStorage.getItem("flowcare_periodLength") || "5", 10);
-  });
+// ─── Data manager — lives inside AuthProvider so it can read username ─────────
 
-  const [lastPeriod, setLastPeriod] = useState(() => {
-    const defaultDate = new Date();
-    defaultDate.setDate(defaultDate.getDate() - 10);
-    return localStorage.getItem("flowcare_lastPeriod") || defaultDate.toISOString().split('T')[0];
-  });
+function AppData({ theme, setTheme }) {
+  const { isAuthenticated, username } = useAuth();
 
-  const [loggedSymptoms, setLoggedSymptoms] = useState(() => {
-    const raw = localStorage.getItem("flowcare_loggedSymptoms");
-    return raw ? JSON.parse(raw) : {};
-  });
-
+  // ── State ────────────────────────────────────────────────────────────────────
+  const [cycleLength, setCycleLengthState] = useState(28);
+  const [periodLength, setPeriodLengthState] = useState(5);
+  const [lastPeriod, setLastPeriodState] = useState(getDefaultLastPeriod());
+  const [loggedSymptoms, setLoggedSymptoms] = useState({});
   const [simulatedDay, setSimulatedDay] = useState(1);
-  const [theme, setTheme] = useState(() => {
-    return localStorage.getItem("flowcare_theme") || "light";
-  });
+  const [dataLoaded, setDataLoaded] = useState(false);
 
+  // ── Load data from SQLite when the user logs in ───────────────────────────────
   useEffect(() => {
-    if (lastPeriod) {
-      const today = new Date();
-      const lastDate = new Date(lastPeriod);
-      const diffTime = Math.abs(today - lastDate);
-      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      const calculatedDay = ((diffDays - 1) % cycleLength) + 1;
-      setSimulatedDay(calculatedDay || 1);
+    if (!isAuthenticated || !username) {
+      // Reset to defaults on logout
+      setCycleLengthState(28);
+      setPeriodLengthState(5);
+      setLastPeriodState(getDefaultLastPeriod());
+      setLoggedSymptoms({});
+      setSimulatedDay(1);
+      setDataLoaded(false);
+      return;
     }
+
+    let cancelled = false;
+
+    async function loadUserData() {
+      try {
+        const [settings, symptoms] = await Promise.all([
+          getSettings(username),
+          getSymptoms(username),
+        ]);
+
+        if (cancelled) return;
+
+        if (settings) {
+          setCycleLengthState(settings.cycleLength ?? 28);
+          setPeriodLengthState(settings.periodLength ?? 5);
+          setLastPeriodState(settings.lastPeriod || getDefaultLastPeriod());
+        }
+
+        if (symptoms) {
+          setLoggedSymptoms(symptoms);
+        }
+      } catch (err) {
+        console.error("[App] Failed to load user data:", err);
+      } finally {
+        if (!cancelled) setDataLoaded(true);
+      }
+    }
+
+    loadUserData();
+    return () => { cancelled = true; };
+  }, [isAuthenticated, username]);
+
+  // ── Recalculate simulated day when relevant settings change ──────────────────
+  useEffect(() => {
+    setSimulatedDay(calcSimulatedDay(lastPeriod, cycleLength));
   }, [lastPeriod, cycleLength]);
 
-  useEffect(() => {
-    localStorage.setItem("flowcare_cycleLength", cycleLength.toString());
-  }, [cycleLength]);
+  // ── Persist settings to SQLite whenever they change (after initial load) ─────
+  const persistSettings = useCallback(async (cl, pl, lp) => {
+    if (!isAuthenticated || !username || !dataLoaded) return;
+    await saveSettings(username, {
+      cycleLength: cl,
+      periodLength: pl,
+      lastPeriod: lp,
+    });
+  }, [isAuthenticated, username, dataLoaded]);
 
-  useEffect(() => {
-    localStorage.setItem("flowcare_periodLength", periodLength.toString());
-  }, [periodLength]);
+  // Wrapped setters that update state AND persist to DB
+  const setCycleLength = useCallback((val) => {
+    setCycleLengthState((prev) => {
+      const next = typeof val === "function" ? val(prev) : val;
+      persistSettings(next, periodLength, lastPeriod);
+      return next;
+    });
+  }, [persistSettings, periodLength, lastPeriod]);
 
-  useEffect(() => {
-    localStorage.setItem("flowcare_lastPeriod", lastPeriod);
-  }, [lastPeriod]);
+  const setPeriodLength = useCallback((val) => {
+    setPeriodLengthState((prev) => {
+      const next = typeof val === "function" ? val(prev) : val;
+      persistSettings(cycleLength, next, lastPeriod);
+      return next;
+    });
+  }, [persistSettings, cycleLength, lastPeriod]);
 
-  useEffect(() => {
-    localStorage.setItem("flowcare_loggedSymptoms", JSON.stringify(loggedSymptoms));
-  }, [loggedSymptoms]);
+  const setLastPeriod = useCallback((val) => {
+    setLastPeriodState((prev) => {
+      const next = typeof val === "function" ? val(prev) : val;
+      persistSettings(cycleLength, periodLength, next);
+      return next;
+    });
+  }, [persistSettings, cycleLength, periodLength]);
 
+  // ── Theme — still uses localStorage (UI preference only) ────────────────────
   useEffect(() => {
     if (theme === "dark") {
       document.body.classList.add("theme-dark");
@@ -202,23 +267,44 @@ function App() {
     localStorage.setItem("flowcare_theme", theme);
   }, [theme]);
 
+  // ── Loading screen while data fetches from DB ────────────────────────────────
+  if (isAuthenticated && !dataLoaded) {
+    return (
+      <div className="app-loading">
+        <p>Loading your data…</p>
+      </div>
+    );
+  }
+
+  return (
+    <AppShell
+      cycleLength={cycleLength}
+      setCycleLength={setCycleLength}
+      periodLength={periodLength}
+      setPeriodLength={setPeriodLength}
+      lastPeriod={lastPeriod}
+      setLastPeriod={setLastPeriod}
+      loggedSymptoms={loggedSymptoms}
+      setLoggedSymptoms={setLoggedSymptoms}
+      simulatedDay={simulatedDay}
+      setSimulatedDay={setSimulatedDay}
+      theme={theme}
+      setTheme={setTheme}
+    />
+  );
+}
+
+// ─── Root App ─────────────────────────────────────────────────────────────────
+
+function App() {
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem("flowcare_theme") || "light";
+  });
+
   return (
     <Router>
       <AuthProvider>
-        <AppShell
-          cycleLength={cycleLength}
-          setCycleLength={setCycleLength}
-          periodLength={periodLength}
-          setPeriodLength={setPeriodLength}
-          lastPeriod={lastPeriod}
-          setLastPeriod={setLastPeriod}
-          loggedSymptoms={loggedSymptoms}
-          setLoggedSymptoms={setLoggedSymptoms}
-          simulatedDay={simulatedDay}
-          setSimulatedDay={setSimulatedDay}
-          theme={theme}
-          setTheme={setTheme}
-        />
+        <AppData theme={theme} setTheme={setTheme} />
       </AuthProvider>
     </Router>
   );

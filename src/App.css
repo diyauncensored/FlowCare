@@ -1,5 +1,18 @@
 /* src/App.css — Phase 3 Cinematic Layout */
 
+/* Data loading screen */
+.app-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  font-family: var(--font-body);
+  color: var(--text-secondary);
+  font-size: 1rem;
+  background: var(--bg-main);
+}
+
+
 /* Core Layout */
 .app-container {
   display: flex;
