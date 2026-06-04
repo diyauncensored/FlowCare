@@ -8,7 +8,7 @@ function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { login, isAuthenticated, defaultUsername } = useAuth();
+  const { login, isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -92,7 +92,7 @@ function LoginPage() {
 
           <div className="login-demo-hint">
             <span className="hint-label">Demo credentials</span>
-            <p>Username: {defaultUsername}</p>
+            <p>Username: demo@flowcare.com</p>
             <p>Password: FlowCare123!</p>
           </div>
 

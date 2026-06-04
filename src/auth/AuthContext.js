@@ -3,13 +3,17 @@ import { loginUser } from "../api/flowcareApi";
 
 const AUTH_STORAGE_KEY = "flowcare_auth_session";
 
+// Fallback credentials used when the backend server is not reachable.
+// These match the demo user seeded in the SQLite DB.
+const FALLBACK_USERNAME = "demo@flowcare.com";
+const FALLBACK_PASSWORD = "FlowCare123!";
+
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   /**
-   * Session is kept in localStorage ONLY to persist "who is logged in"
-   * across page refreshes — like a session cookie. The actual data (cycle
-   * settings, symptoms) now lives in SQLite on the backend.
+   * Session is kept in localStorage to persist who is logged in across
+   * page refreshes. The actual data lives in SQLite when the backend is up.
    */
   const [session, setSession] = useState(() => {
     const rawSession = localStorage.getItem(AUTH_STORAGE_KEY);
@@ -31,15 +35,41 @@ export function AuthProvider({ children }) {
   }, [session]);
 
   /**
-   * Login — calls the backend API which verifies against SQLite.
-   * Returns { ok: true, username } on success or { ok: false, message } on failure.
+   * Login strategy:
+   *  1. Try the backend API (SQLite auth).
+   *  2. If the backend is unreachable (network error), fall back to the
+   *     hardcoded demo credentials so the app always works offline.
    */
   const login = async (username, password) => {
-    const result = await loginUser(username.trim(), password);
+    const trimmedUsername = username.trim().toLowerCase();
+
+    // ── Try API first ────────────────────────────────────────────────────────
+    const result = await loginUser(trimmedUsername, password);
+
     if (result.ok) {
       setSession({ isAuthenticated: true, username: result.username });
+      return { ok: true };
     }
-    return result;
+
+    // ── If API returned a real auth error (wrong password), surface it ──────
+    if (result.serverReachable) {
+      return { ok: false, message: result.message };
+    }
+
+    // ── Backend is down — fall back to local credential check ────────────────
+    console.warn("[Auth] Backend unreachable — using offline credential fallback.");
+    if (
+      trimmedUsername === FALLBACK_USERNAME &&
+      password === FALLBACK_PASSWORD
+    ) {
+      setSession({ isAuthenticated: true, username: FALLBACK_USERNAME });
+      return { ok: true };
+    }
+
+    return {
+      ok: false,
+      message: "Invalid username or password.",
+    };
   };
 
   const logout = () => {

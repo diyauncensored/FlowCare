@@ -119,7 +119,7 @@ function CycleTrackerPage({
     setShowLogger(true);
   };
 
-  // Handle symptoms save — updates local state AND persists to SQLite via API
+  // Handle symptoms save — updates local state AND persists to SQLite + localStorage
   const handleSaveLogs = async () => {
     const symptomData = { flow, mood, painList, water, sleep };
 
@@ -130,7 +130,10 @@ function CycleTrackerPage({
     };
     setLoggedSymptoms(newLogs);
 
-    // Persist to SQLite
+    // Always write to localStorage as backup
+    localStorage.setItem("flowcare_loggedSymptoms", JSON.stringify(newLogs));
+
+    // Persist to SQLite (no-ops silently if backend is down)
     if (username) {
       await saveSymptom(username, selectedDateStr, symptomData);
     }
@@ -138,13 +141,16 @@ function CycleTrackerPage({
     alert(`Wellness metrics saved for ${selectedDateStr}!`);
   };
 
-  // Clear symptoms for a date — resets to empty values in SQLite
+  // Clear symptoms for a date — resets to empty values in SQLite + localStorage
   const handleClearLogs = async () => {
     const newLogs = { ...loggedSymptoms };
     delete newLogs[selectedDateStr];
     setLoggedSymptoms(newLogs);
 
-    // Save empty record to DB (effectively clears it)
+    // Update localStorage backup
+    localStorage.setItem("flowcare_loggedSymptoms", JSON.stringify(newLogs));
+
+    // Clear in SQLite too (no-ops silently if backend is down)
     if (username) {
       await saveSymptom(username, selectedDateStr, {
         flow: "", mood: "", painList: [], water: 0, sleep: 8,
