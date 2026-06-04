@@ -7,11 +7,13 @@ const api = axios.create({
 });
 
 // Treats the error as "server is down" if there's no response, if it timed out,
-// or if the CRA proxy returned a 5xx HTML page (which happens when Express isn't running).
+// if the CRA proxy returned a 5xx HTML page (backend not running locally),
+// or if Vercel/any static host returned 404 (Express API not deployed there).
 function isServerDown(err) {
   if (!err.response) return true;
   if (err.code === "ECONNABORTED") return true;
   if (err.response.status >= 500) return true;
+  if (err.response.status === 404) return true; // API not deployed on this host
   return false;
 }
 
