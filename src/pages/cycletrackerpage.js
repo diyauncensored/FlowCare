@@ -119,21 +119,16 @@ function CycleTrackerPage({
     setShowLogger(true);
   };
 
-  // Handle symptoms save — updates local state AND persists to SQLite + localStorage
+  // Save symptoms — update local state and persist to Turso
   const handleSaveLogs = async () => {
     const symptomData = { flow, mood, painList, water, sleep };
 
-    // Optimistic local update (UI stays fast)
     const newLogs = {
       ...loggedSymptoms,
       [selectedDateStr]: symptomData,
     };
     setLoggedSymptoms(newLogs);
 
-    // Always write to localStorage as backup
-    localStorage.setItem("flowcare_loggedSymptoms", JSON.stringify(newLogs));
-
-    // Persist to SQLite (no-ops silently if backend is down)
     if (username) {
       await saveSymptom(username, selectedDateStr, symptomData);
     }
@@ -141,16 +136,12 @@ function CycleTrackerPage({
     alert(`Wellness metrics saved for ${selectedDateStr}!`);
   };
 
-  // Clear symptoms for a date — resets to empty values in SQLite + localStorage
+  // Clear symptoms for a date
   const handleClearLogs = async () => {
     const newLogs = { ...loggedSymptoms };
     delete newLogs[selectedDateStr];
     setLoggedSymptoms(newLogs);
 
-    // Update localStorage backup
-    localStorage.setItem("flowcare_loggedSymptoms", JSON.stringify(newLogs));
-
-    // Clear in SQLite too (no-ops silently if backend is down)
     if (username) {
       await saveSymptom(username, selectedDateStr, {
         flow: "", mood: "", painList: [], water: 0, sleep: 8,

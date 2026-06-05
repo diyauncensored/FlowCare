@@ -165,7 +165,7 @@ function AppData({ theme, setTheme }) {
   const [simulatedDay, setSimulatedDay] = useState(1);
   const [dataLoaded, setDataLoaded] = useState(false);
 
-  // Load user data from SQLite on login; fall back to localStorage if backend is offline
+  // Load user data from Turso on login
   useEffect(() => {
     if (!isAuthenticated || !username) {
       setCycleLengthState(28);
@@ -192,28 +192,11 @@ function AppData({ theme, setTheme }) {
           setCycleLengthState(settings.cycleLength ?? 28);
           setPeriodLengthState(settings.periodLength ?? 5);
           setLastPeriodState(settings.lastPeriod || getDefaultLastPeriod());
-        } else {
-          // Backend offline — read from localStorage
-          setCycleLengthState(parseInt(localStorage.getItem("flowcare_cycleLength") || "28", 10));
-          setPeriodLengthState(parseInt(localStorage.getItem("flowcare_periodLength") || "5", 10));
-          setLastPeriodState(localStorage.getItem("flowcare_lastPeriod") || getDefaultLastPeriod());
         }
 
-        if (symptoms !== null) {
-          setLoggedSymptoms(symptoms);
-        } else {
-          const raw = localStorage.getItem("flowcare_loggedSymptoms");
-          setLoggedSymptoms(raw ? JSON.parse(raw) : {});
-        }
+        setLoggedSymptoms(symptoms || {});
       } catch (err) {
         console.error("[App] Failed to load user data:", err);
-        if (!cancelled) {
-          setCycleLengthState(parseInt(localStorage.getItem("flowcare_cycleLength") || "28", 10));
-          setPeriodLengthState(parseInt(localStorage.getItem("flowcare_periodLength") || "5", 10));
-          setLastPeriodState(localStorage.getItem("flowcare_lastPeriod") || getDefaultLastPeriod());
-          const raw = localStorage.getItem("flowcare_loggedSymptoms");
-          setLoggedSymptoms(raw ? JSON.parse(raw) : {});
-        }
       } finally {
         if (!cancelled) setDataLoaded(true);
       }
@@ -227,12 +210,8 @@ function AppData({ theme, setTheme }) {
     setSimulatedDay(calcSimulatedDay(lastPeriod, cycleLength));
   }, [lastPeriod, cycleLength]);
 
-  // Always write to localStorage as backup, then try SQLite
   const persistSettings = useCallback(async (cl, pl, lp) => {
     if (!isAuthenticated || !username || !dataLoaded) return;
-    localStorage.setItem("flowcare_cycleLength", String(cl));
-    localStorage.setItem("flowcare_periodLength", String(pl));
-    localStorage.setItem("flowcare_lastPeriod", lp);
     await saveSettings(username, { cycleLength: cl, periodLength: pl, lastPeriod: lp });
   }, [isAuthenticated, username, dataLoaded]);
 
@@ -260,7 +239,7 @@ function AppData({ theme, setTheme }) {
     });
   }, [persistSettings, cycleLength, periodLength]);
 
-  // Theme is a UI preference — localStorage only, no need to hit the DB
+  // Theme is a UI preference — localStorage only
   useEffect(() => {
     document.body.classList.toggle("theme-dark", theme === "dark");
     localStorage.setItem("flowcare_theme", theme);
@@ -291,6 +270,7 @@ function AppData({ theme, setTheme }) {
     />
   );
 }
+
 
 function App() {
   const [theme, setTheme] = useState(() => {
