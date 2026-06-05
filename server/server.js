@@ -6,7 +6,18 @@ const { getDb } = require("./database");
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+const allowedOrigins = ["http://localhost:3000"];
+
+if (process.env.VERCEL_URL) {
+  allowedOrigins.push(`https://${process.env.VERCEL_URL}`);
+}
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 app.use((req, _res, next) => {
@@ -118,6 +129,10 @@ app.get("/api/health", (_req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
-app.listen(PORT, () => {
-  console.log(`\n✅ FlowCare API running at http://localhost:${PORT}\n`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`\n✅ FlowCare API running at http://localhost:${PORT}\n`);
+  });
+}
+
+module.exports = app;

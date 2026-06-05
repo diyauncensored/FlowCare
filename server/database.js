@@ -2,7 +2,9 @@ const Database = require("better-sqlite3");
 const bcrypt = require("bcryptjs");
 const path = require("path");
 
-const DB_PATH = path.join(__dirname, "flowcare.db");
+const DB_PATH = process.env.VERCEL
+  ? path.join("/tmp", "flowcare.db")
+  : path.join(__dirname, "flowcare.db");
 
 let db;
 
