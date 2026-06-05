@@ -50,9 +50,8 @@ function initSchema() {
 }
 
 function seedDemoUser() {
-  // Credentials can be overridden via env vars without touching this file
-  const username = process.env.FLOWCARE_DEMO_USER || "demo@flowcare.com";
-  const password = process.env.FLOWCARE_DEMO_PASSWORD || "FlowCare123!";
+  const username = "demo@flowcare.com";
+  const password = "FlowCare123!";
 
   const existing = db.prepare("SELECT id FROM users WHERE username = ?").get(username);
   if (!existing) {
