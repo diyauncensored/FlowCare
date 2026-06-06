@@ -5,7 +5,7 @@ import "./TalkHere.css";
 const TalkHere = ({ loggedSymptoms, lastPeriod, cycleLength, periodLength }) => {
   const [messages, setMessages] = useState([
     {
-      text: "Hello! I am FlowBot, your AI wellness companion. I can help analyze your symptoms, suggest phase-appropriate nutrition, and offer exercise guides. How are you feeling today?",
+      text: "Hey there! I'm FlowBot, your wellness companion. I can help with cycle questions, cramp relief, nutrition tips, and more. How are you feeling today?",
       sender: "bot",
       time: new Date()
     }
@@ -14,21 +14,13 @@ const TalkHere = ({ loggedSymptoms, lastPeriod, cycleLength, periodLength }) => 
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
 
-  // Gemini API configuration
-  const GEMINI_API_KEY = process.env.REACT_APP_GEMINI_API_KEY || null;
-  const GEMINI_API_URL = process.env.REACT_APP_GEMINI_API_URL || null;
-
-  // Auto-scroll to bottom of chat
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isTyping]);
 
-  // Generate date strings
-  const getTodayString = () => new Date().toISOString().split("T")[0];
-  const todayStr = getTodayString();
+  const todayStr = new Date().toISOString().split("T")[0];
   const todayLogs = loggedSymptoms[todayStr] || {};
 
-  // Determine current simulated phase for context
   const getCurrentPhase = () => {
     if (!lastPeriod) return "Follicular Phase";
     const today = new Date();
@@ -46,7 +38,6 @@ const TalkHere = ({ loggedSymptoms, lastPeriod, cycleLength, periodLength }) => 
 
   const currentPhase = getCurrentPhase();
 
-  // Create customized smart suggestion chips
   const getSmartSuggestions = () => {
     const chips = [];
 
@@ -90,102 +81,50 @@ const TalkHere = ({ loggedSymptoms, lastPeriod, cycleLength, periodLength }) => 
   const handleSend = async (textToSend) => {
     if (!textToSend || textToSend.trim() === "") return;
 
-    const updatedMessages = [
-      ...messages,
-      { text: textToSend, sender: "user", time: new Date() }
-    ];
+    const userMessage = { text: textToSend, sender: "user", time: new Date() };
+    const updatedMessages = [...messages, userMessage];
     setMessages(updatedMessages);
     setInputValue("");
     setIsTyping(true);
 
     try {
-      const botResponse = await callGeminiAPI(textToSend);
+      // Build cycle context for the AI
+      const cycleContext = {
+        phase: currentPhase,
+        symptoms: todayLogs.painList?.join(", ") || "none logged",
+        water: todayLogs.water || 0,
+        mood: todayLogs.mood || "not logged",
+      };
+
+      // Send conversation history to the server-side Gemini endpoint
+      const res = await axios.post("/api/flowbot", {
+        messages: updatedMessages.map((m) => ({
+          text: m.text,
+          sender: m.sender,
+        })),
+        cycleContext,
+      });
+
+      const botText = res.data.ok
+        ? res.data.response
+        : res.data.message || "Sorry, something went wrong. Please try again.";
+
       setMessages([
         ...updatedMessages,
-        { text: botResponse, sender: "bot", time: new Date() }
+        { text: botText, sender: "bot", time: new Date() },
       ]);
     } catch (error) {
-      console.error("Error fetching response from Gemini AI:", error);
+      console.error("FlowBot error:", error);
       setMessages([
         ...updatedMessages,
         {
-          text: "My neural transmission is experiencing brief interference. Please verify your connection and try again.",
+          text: "I'm having a little trouble connecting right now. Please try again in a moment.",
           sender: "bot",
-          time: new Date()
-        }
+          time: new Date(),
+        },
       ]);
     } finally {
       setIsTyping(false);
-    }
-  };
-
-  // Local AI fallback response
-  const getLocalResponse = (message) => {
-    const query = message.toLowerCase();
-
-    if (query.includes("cramp") || query.includes("pain")) {
-      return `Based on your logging of ${todayLogs.painList?.join(", ") || "cramps"} and your current predicted cycle phase, I recommend targeting pain-relief through a combination of thermal and physical techniques:\n1. **Heat Therapy:** Apply a warm compress (40°C) to the lower abdominal wall to stimulate microcirculation.\n2. **Magnesium & Zinc:** High dietary magnesium relaxes smooth uterine muscle fibers.\n3. **Restorative Yoga:** Engage in child's pose (Balasana) or legs-up-the-wall pose to decompress pressure on lumbar pathways. \nLet me know if you would like me to explain any of these further!`;
-    }
-
-    if (
-      query.includes("recipe") ||
-      query.includes("nutrition") ||
-      query.includes("eat") ||
-      query.includes("food")
-    ) {
-      return `For your current **${currentPhase}**, let's optimize your nourishment:\n- **During Menstruation/Luteal:** Prioritize iron-rich foods (spinach, lentils) and warming stews. Progesterone requires healthy fats (avocado, seeds).\n- **During Follicular/Ovulatory:** Lean proteins, antioxidant berries, and fermented foods (kimchi, kefir) will balance the rapid estrogen peak and aid follicle development.\nWould you like a sample meal plan for breakfast, lunch, or dinner?`;
-    }
-
-    if (
-      query.includes("sleep") ||
-      query.includes("insomnia") ||
-      query.includes("night")
-    ) {
-      return `Sleep disruptions during the Luteal/Menstrual phases are often linked to basal temperature shifts and low melatonin. Try this:\n- **Magnesium Bisglycinate:** Helps relax neural pathways before bed.\n- **Cycle-Syncing Temperature:** Keep your room cool (18°C) to aid natural core temperature drops.\n- **Breathing Cycles:** The 4-7-8 breathing technique down-regulates cortisol spikes.`;
-    }
-
-    if (query.includes("hydration") || query.includes("water")) {
-      return `Hydration is highly critical during the ${currentPhase}. Optimal water levels facilitate the fluid transfer needed for uterine lining shedding, reduce bloating caused by sodium retention, and alleviate fatigue. Try to hit your daily goal of 2000 mL today!`;
-    }
-
-    return `I received your inquiry: "${message}". \n\nI am currently running in prototype companion mode. Here is a summary of your synced health data:\n- **Current Cycle Phase:** ${currentPhase} (Estimated Day of Cycle)\n- **Active Symptom Logs:** ${todayLogs.painList?.length > 0 ? todayLogs.painList.join(", ") : "None logged today"}\n- **Water Consumption:** ${todayLogs.water || 0} mL\n\nPlease ask me about nutrition tips, workout modifications, or symptom remedies custom-tailored to these cycle coordinates!`;
-  };
-
-  const callGeminiAPI = async (userMessage) => {
-    if (!GEMINI_API_URL || !GEMINI_API_KEY) {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve(getLocalResponse(userMessage));
-        }, 1200);
-      });
-    }
-
-    try {
-      const contextualQuery = `User cycle day: estimated phase ${currentPhase}, logged symptoms today: ${todayLogs.painList?.join(", ") || "none"}. User says: ${userMessage}`;
-
-      const response = await axios.post(
-        GEMINI_API_URL,
-        {
-          message: contextualQuery,
-          context:
-            "menstrual wellness tips, nutrition, period comfort, scientific cycle explanations, empathetic supportive tone"
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${GEMINI_API_KEY}`,
-            "Content-Type": "application/json"
-          }
-        }
-      );
-
-      return (
-        response.data?.response ||
-        response.data?.message ||
-        JSON.stringify(response.data)
-      );
-    } catch (error) {
-      console.error("Error fetching Gemini AI response:", error);
-      throw error;
     }
   };
 
