@@ -119,7 +119,7 @@ function CycleTrackerPage({
     setShowLogger(true);
   };
 
-  // Save symptoms — update local state and persist to Turso
+  // Save symptoms — localStorage backup + Turso API
   const handleSaveLogs = async () => {
     const symptomData = { flow, mood, painList, water, sleep };
 
@@ -128,6 +128,7 @@ function CycleTrackerPage({
       [selectedDateStr]: symptomData,
     };
     setLoggedSymptoms(newLogs);
+    localStorage.setItem("flowcare_loggedSymptoms", JSON.stringify(newLogs));
 
     if (username) {
       await saveSymptom(username, selectedDateStr, symptomData);
@@ -141,6 +142,7 @@ function CycleTrackerPage({
     const newLogs = { ...loggedSymptoms };
     delete newLogs[selectedDateStr];
     setLoggedSymptoms(newLogs);
+    localStorage.setItem("flowcare_loggedSymptoms", JSON.stringify(newLogs));
 
     if (username) {
       await saveSymptom(username, selectedDateStr, {

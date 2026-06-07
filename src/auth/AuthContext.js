@@ -24,14 +24,26 @@ export function AuthProvider({ children }) {
   }, [session]);
 
   const login = async (username, password) => {
-    const result = await loginUser(username.trim().toLowerCase(), password);
+    const trimmed = username.trim().toLowerCase();
+    const result = await loginUser(trimmed, password);
 
     if (result.ok) {
       setSession({ isAuthenticated: true, username: result.username });
       return { ok: true };
     }
 
-    return { ok: false, message: result.message };
+    // If the server rejected the credentials, show its message
+    if (result.serverReachable) {
+      return { ok: false, message: result.message };
+    }
+
+    // Backend unreachable (local dev without vercel dev) — use offline fallback
+    if (trimmed === "demo@flowcare.com" && password === "FlowCare123!") {
+      setSession({ isAuthenticated: true, username: "demo@flowcare.com" });
+      return { ok: true };
+    }
+
+    return { ok: false, message: "Invalid username or password." };
   };
 
   const logout = () => {

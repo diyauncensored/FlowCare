@@ -165,7 +165,7 @@ function AppData({ theme, setTheme }) {
   const [simulatedDay, setSimulatedDay] = useState(1);
   const [dataLoaded, setDataLoaded] = useState(false);
 
-  // Load user data from Turso on login
+  // Load user data — tries Turso API, falls back to localStorage for local dev
   useEffect(() => {
     if (!isAuthenticated || !username) {
       setCycleLengthState(28);
@@ -192,11 +192,28 @@ function AppData({ theme, setTheme }) {
           setCycleLengthState(settings.cycleLength ?? 28);
           setPeriodLengthState(settings.periodLength ?? 5);
           setLastPeriodState(settings.lastPeriod || getDefaultLastPeriod());
+        } else {
+          // API unreachable — load from localStorage
+          setCycleLengthState(parseInt(localStorage.getItem("flowcare_cycleLength") || "28", 10));
+          setPeriodLengthState(parseInt(localStorage.getItem("flowcare_periodLength") || "5", 10));
+          setLastPeriodState(localStorage.getItem("flowcare_lastPeriod") || getDefaultLastPeriod());
         }
 
-        setLoggedSymptoms(symptoms || {});
+        if (symptoms && Object.keys(symptoms).length > 0) {
+          setLoggedSymptoms(symptoms);
+        } else {
+          const raw = localStorage.getItem("flowcare_loggedSymptoms");
+          setLoggedSymptoms(raw ? JSON.parse(raw) : {});
+        }
       } catch (err) {
-        console.error("[App] Failed to load user data:", err);
+        console.error("[App] API unreachable, using localStorage:", err);
+        if (!cancelled) {
+          setCycleLengthState(parseInt(localStorage.getItem("flowcare_cycleLength") || "28", 10));
+          setPeriodLengthState(parseInt(localStorage.getItem("flowcare_periodLength") || "5", 10));
+          setLastPeriodState(localStorage.getItem("flowcare_lastPeriod") || getDefaultLastPeriod());
+          const raw = localStorage.getItem("flowcare_loggedSymptoms");
+          setLoggedSymptoms(raw ? JSON.parse(raw) : {});
+        }
       } finally {
         if (!cancelled) setDataLoaded(true);
       }
@@ -210,8 +227,12 @@ function AppData({ theme, setTheme }) {
     setSimulatedDay(calcSimulatedDay(lastPeriod, cycleLength));
   }, [lastPeriod, cycleLength]);
 
+  // Always save to localStorage as backup, then try Turso API
   const persistSettings = useCallback(async (cl, pl, lp) => {
     if (!isAuthenticated || !username || !dataLoaded) return;
+    localStorage.setItem("flowcare_cycleLength", String(cl));
+    localStorage.setItem("flowcare_periodLength", String(pl));
+    localStorage.setItem("flowcare_lastPeriod", lp);
     await saveSettings(username, { cycleLength: cl, periodLength: pl, lastPeriod: lp });
   }, [isAuthenticated, username, dataLoaded]);
 

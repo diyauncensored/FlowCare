@@ -47,7 +47,7 @@ module.exports = async function handler(req, res) {
 
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-3.5-flash" });
 
     // Build the conversation context from the user's cycle data
     let contextPrefix = "";
@@ -60,28 +60,45 @@ module.exports = async function handler(req, res) {
     }
 
     // Build conversation history for Gemini (last 10 messages for context window)
-    const recentMessages = messages.slice(-10);
-    const chatHistory = [];
+    // Map the messages to the structure expected by generateContent (which also requires alternating roles)
+    const contents = [];
+    
+    // Filter out greeting message and construct valid alternating roles
+    const historyMessages = messages.filter(m => m.sender === "user" || m.text !== "Hey there! I'm FlowBot, your wellness companion. I can help with cycle questions, cramp relief, nutrition tips, and more. How are you feeling today?");
+    
+    let expectedRole = "user";
+    for (let i = 0; i < historyMessages.length; i++) {
+      const msg = historyMessages[i];
+      const role = msg.sender === "user" ? "user" : "model";
+      
+      // We only append if it matches the alternating sequence
+      if (role === expectedRole) {
+        // If this is the last message (which is the user prompt), inject contextPrefix
+        const text = i === historyMessages.length - 1 ? contextPrefix + msg.text : msg.text;
+        
+        contents.push({
+          role: role,
+          parts: [{ text: text }],
+        });
+        expectedRole = expectedRole === "user" ? "model" : "user";
+      }
+    }
 
-    for (const msg of recentMessages.slice(0, -1)) {
-      chatHistory.push({
-        role: msg.sender === "user" ? "user" : "model",
-        parts: [{ text: msg.text }],
+    // Fallback: If no user message was added, add at least one
+    if (contents.length === 0 || contents[0].role !== "user") {
+      const latestMessage = messages[messages.length - 1];
+      contents.unshift({
+        role: "user",
+        parts: [{ text: contextPrefix + latestMessage.text }]
       });
     }
 
-    // The latest user message
-    const latestMessage = recentMessages[recentMessages.length - 1];
-    const userPrompt = contextPrefix + latestMessage.text;
-
-    const chat = model.startChat({
-      history: chatHistory,
+    const result = await model.generateContent({
+      contents: contents,
       systemInstruction: SYSTEM_PROMPT,
     });
-
-    const result = await chat.sendMessage(userPrompt);
+    
     const response = result.response.text();
-
     res.json({ ok: true, response });
   } catch (error) {
     console.error("[FlowBot] Gemini API error:", error.message);

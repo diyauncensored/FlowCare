@@ -9,10 +9,15 @@ const api = axios.create({
 export async function loginUser(username, password) {
   try {
     const res = await api.post("/auth/login", { username, password });
-    return res.data;
+    return { ...res.data, serverReachable: true };
   } catch (err) {
-    const message = err.response?.data?.message || "Login failed. Please try again.";
-    return { ok: false, message };
+    // No response, 5xx, or 404 = backend isn't running (local dev)
+    const status = err.response?.status;
+    if (!err.response || status >= 500 || status === 404) {
+      return { ok: false, serverReachable: false, message: "Backend offline." };
+    }
+    const message = err.response?.data?.message || "Invalid username or password.";
+    return { ok: false, serverReachable: true, message };
   }
 }
 
