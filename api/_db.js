@@ -16,21 +16,26 @@ function getClient() {
 async function initSchema() {
   const db = getClient();
 
-  await db.executeMultiple(`
+  // Run each statement individually to prevent 400 Bad Request errors from query parsing gateways
+  await db.execute(`
     CREATE TABLE IF NOT EXISTS users (
       id            INTEGER PRIMARY KEY AUTOINCREMENT,
       username      TEXT    UNIQUE NOT NULL,
       password_hash TEXT    NOT NULL,
-      created_at    TEXT    DEFAULT (datetime('now'))
+      created_at    TEXT    DEFAULT CURRENT_TIMESTAMP
     );
+  `);
 
+  await db.execute(`
     CREATE TABLE IF NOT EXISTS user_settings (
       username      TEXT PRIMARY KEY,
       cycle_length  INTEGER NOT NULL DEFAULT 28,
       period_length INTEGER NOT NULL DEFAULT 5,
       last_period   TEXT    NOT NULL DEFAULT ''
     );
+  `);
 
+  await db.execute(`
     CREATE TABLE IF NOT EXISTS symptoms (
       username  TEXT NOT NULL,
       date      TEXT NOT NULL,

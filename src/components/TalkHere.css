@@ -22,8 +22,8 @@
 }
 
 body.theme-dark .chat-container {
-  background: rgba(255, 255, 255, 0.03);
-  border-color: rgba(255, 255, 255, 0.06);
+  background: var(--bg-card-solid);
+  border-color: var(--border-card);
 }
 
 /* ─── Header ─── */
@@ -145,8 +145,8 @@ body.theme-dark .message-row--bot .message-bubble {
 }
 
 body.theme-dark .message-row--user .message-bubble {
-  background: var(--text-inverse);
-  color: #0a0a0a;
+  background: var(--color-accent);
+  color: #ffffff;
 }
 
 .message-text {
@@ -166,7 +166,7 @@ body.theme-dark .message-row--user .message-bubble {
 }
 
 body.theme-dark .message-row--user .message-time {
-  color: rgba(0, 0, 0, 0.4);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 /* ─── Typing Indicator ─── */
@@ -271,17 +271,21 @@ body.theme-dark .chip-btn:hover {
 }
 
 body.theme-dark .chat-input {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: rgba(255, 255, 255, 0.08);
+  background: var(--bg-main);
+  border-color: var(--border-card);
 }
 
 .chat-input:focus {
   border-color: var(--color-accent);
-  box-shadow: 0 0 0 3px var(--color-accent-bg);
+  box-shadow: 0 0 0 3px var(--color-accent-glow);
 }
 
 .chat-input::placeholder {
   color: var(--text-tertiary);
+}
+
+body.theme-dark .chat-input::placeholder {
+  color: var(--text-secondary);
 }
 
 /* ─── Send Button ─── */
@@ -289,23 +293,19 @@ body.theme-dark .chat-input {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: var(--text-primary);
-  color: var(--text-inverse);
+  background: var(--color-accent);
+  color: #ffffff;
   border: none;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   flex-shrink: 0;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-}
-
-body.theme-dark .chat-send-btn {
-  background: var(--text-inverse);
-  color: #0a0a0a;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .chat-send-btn:hover {
+  background: var(--color-accent-soft);
   transform: scale(1.06);
 }
 
