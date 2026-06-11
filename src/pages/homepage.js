@@ -165,7 +165,7 @@ function HomePage({ cycleLength, periodLength, lastPeriod, loggedSymptoms, simul
         <div className="dial-card-wrapper">
           <div className="dial-card">
             <div className="svg-dial-container">
-              <svg className="svg-dial-ring" width="300" height="300">
+              <svg className="svg-dial-ring" width="300" height="300" viewBox="0 0 300 300">
                 <circle
                   className="dial-ring-bg"
                   cx="150"

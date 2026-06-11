@@ -14,7 +14,7 @@ function SettingsPage({
 }) {
   const { username } = useAuth();
   const [name, setName] = useState(() => localStorage.getItem("flowcare_userName") || "Diya");
-  const [email, setEmail] = useState(() => localStorage.getItem("flowcare_userEmail") || "");
+  const [email, setEmail] = useState(() => localStorage.getItem("flowcare_userEmail") || "demo@flowcarec.com");
   const [notifications, setNotifications] = useState(() => {
     return localStorage.getItem("flowcare_notifications") !== "false";
   });

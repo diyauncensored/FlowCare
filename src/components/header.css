@@ -211,44 +211,69 @@ body.theme-dark .logout-btn:hover {
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 650px) {
   .header-inner {
-    padding: 0 14px;
-    height: 50px;
-    gap: 4px;
+    height: auto;
+    padding: 10px 16px;
+    flex-wrap: wrap;
+    row-gap: 10px;
+    justify-content: space-between;
+  }
+
+  .header-logo {
+    order: 1;
+  }
+
+  .header-actions {
+    order: 2;
+    gap: 8px;
+  }
+
+  .header-nav {
+    order: 3;
+    width: 100%;
+    border-top: 1px solid var(--border-subtle);
+    padding-top: 8px;
+    justify-content: center;
   }
 
   .logo-text {
-    font-size: 1.25rem;
+    font-size: 1.4rem;
   }
 
   .logo-droplet {
-    width: 18px;
-    height: 18px;
+    width: 20px;
+    height: 20px;
   }
 
   .header-logo a {
-    gap: 6px;
+    gap: 8px;
+  }
+
+  .nav-links {
+    width: 100%;
+    justify-content: space-around;
+    gap: 0;
   }
 
   .nav-link {
-    padding: 4px 7px;
-    font-size: 0.75rem;
+    padding: 6px 12px;
+    font-size: 0.85rem;
   }
 
   .logout-btn {
-    height: 28px;
-    padding: 0 10px;
-    font-size: 0.72rem;
+    height: 30px;
+    padding: 0 12px;
+    font-size: 0.78rem;
   }
 
   .theme-toggle-btn {
-    width: 28px;
-    height: 28px;
+    width: 30px;
+    height: 30px;
   }
 
   .theme-icon {
-    width: 14px;
-    height: 14px;
+    width: 15px;
+    height: 15px;
   }
 }
